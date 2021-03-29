@@ -36,7 +36,7 @@
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Panel de control</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#" class="nav-link dropdown-toggle">Sector</a></li>
+                            <li><a href="{{route('dashboard.sector.index')}}" class="nav-link dropdown-toggle">Sector</a></li>
                             <li><a href="#" class="nav-link dropdown-toggle">Empresas</a></li>
                         </ul>
                     </li>

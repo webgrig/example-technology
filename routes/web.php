@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SectorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +15,9 @@ use App\Http\Controllers\Admin\DashboardController;
 |
 */
 
-Route::group(['prefix' => 'dashboard', 'namespace'=>'Admin', 'middleware' => ['auth', 'verified']], function (){
-    Route::get('/', [DashBoardController::class, 'dashboard'])->name('admin.index');
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified']], function (){
+    Route::get('/', [DashBoardController::class, 'dashboard'])->name('dashboard.index');
+    Route::resource('/sector', SectorController::class, ['as'=>'dashboard']);
 });
 
 Route::get('/', function () {
