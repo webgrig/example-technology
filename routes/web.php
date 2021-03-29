@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['prefix' => 'dashboard', 'namespace'=>'Admin', 'middleware' => ['auth', 'verified']], function (){
+    Route::get('/', [DashBoardController::class, 'dashboard'])->name('admin.index');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('verified')->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('verified')->name('home');
