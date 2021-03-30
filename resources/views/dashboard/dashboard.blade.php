@@ -22,7 +22,7 @@
                 </a>
             </div>
             <div class="col-sm-6">
-                <a href="#" class="btn btn-block btn-dark">Add company</a>
+                <a href="{{route('dashboard.company.create')}}" class="btn btn-block btn-dark">Add company</a>
                 <a href="#" class="list-group-item">
                     <h4 class="list-group-item-action">Company first</h4>
                     <p class="list-group-item-action">Sector</p>

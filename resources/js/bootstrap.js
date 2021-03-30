@@ -13,6 +13,29 @@ try {
     require('bootstrap');
 } catch (e) {}
 
+let modalConfirm = function(callback){
+    let btnConfirm = $(".btn-modal-confirm");
+    btnConfirm.on("click", function(){
+        $("#mi-modal").modal('show');
+    });
+
+    $("#modal-btn-si").on("click", function(){
+        callback(true);
+        $("#mi-modal").modal('hide');
+        let form = $("#" + btnConfirm.data('formId'))
+        form.submit();
+    });
+
+    $("#modal-btn-no").on("click", function(){
+        callback(false);
+        $("#mi-modal").modal('hide');
+    });
+};
+
+modalConfirm(function(confirm){
+    return confirm;
+});
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the

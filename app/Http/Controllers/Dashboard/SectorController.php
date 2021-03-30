@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Sector;
@@ -17,7 +17,7 @@ class SectorController extends Controller
     public function index()
     {
         return view('dashboard.sectors.index', [
-            'sectors'=> Sector::paginate(1)
+            'sectors'=> Sector::paginate(2)
         ]);
     }
 

@@ -9,6 +9,8 @@ class Sector extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     // Mass assigned
     protected $fillable = ['title', 'parent_id'];
     // Get children sector

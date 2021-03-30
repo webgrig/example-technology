@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\SectorController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\SectorController;
+use App\Http\Controllers\Dashboard\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ use App\Http\Controllers\Admin\SectorController;
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified']], function (){
     Route::get('/', [DashBoardController::class, 'dashboard'])->name('dashboard.index');
     Route::resource('/sector', SectorController::class, ['as'=>'dashboard']);
+    Route::resource('/company', CompanyController::class, ['as'=>'dashboard']);
 });
 
 Route::get('/', function () {

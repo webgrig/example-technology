@@ -3,43 +3,47 @@
 @section('content')
     <div class="container">
         @component('dashboard.components.breadcrumb')
-            @slot('title') Sector list @endslot
+            @slot('title') Company list @endslot
             @slot('parent') Main @endslot
-            @slot('active') Sectors @endslot
+            @slot('active') Companies @endslot
         @endcomponent
         <hr>
-        <a href="{{route('dashboard.sector.create')}}" class="btn btn-primary pull-right mb-3"><i
-                class="fa fa-plus-square-o"></i> Create sector</a>
+        <a href="{{route('dashboard.company.create')}}" class="btn btn-primary pull-right mb-3"><i
+                class="fa fa-plus-square-o"></i> Create company</a>
         <table class="table table-striped">
             <thead>
-                <th>Title</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Phone</th>
+                <th class="text-center">Email</th>
                 <th class="text-right">Action</th>
             </thead>
             <tbody>
-                @forelse($sectors as $sector)
+                @forelse($companies as $company)
                     <tr>
-                        <td>{{$sector->title}}</td>
+                        <td class="text-center">{{$company->name}}</td>
+                        <td class="text-center">{{$company->phone}}</td>
+                        <td class="text-center">{{$company->email}}</td>
                         <td class="text-right">
-                            <form action="{{route('dashboard.sector.destroy', $sector)}}" method="post" id="{{'form-delete-' . $sector->id}}">
+                            <form action="{{route('dashboard.company.destroy', $company)}}" method="post" id="{{'form-delete-' . $company->id}}">
                                 @method('delete')
                                 @csrf
-                                <a href="{{route('dashboard.sector.edit', $sector)}}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                                <button type="button" class="btn btn-primary btn-modal-confirm" data-form-id="{{'form-delete-' . $sector->id}}"><i class="fa fa-trash"></i></button>
+                                <a href="{{route('dashboard.company.edit', $company)}}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+                                <button type="button" class="btn btn-primary btn-modal-confirm" data-form-id="{{'form-delete-' . $company->id}}"><i class="fa fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="2" class="text-center">
+                        <td colspan="4" class="text-center">
                             <h2>Data not available</h2>
                         </td>
                     </tr>
                 @endforelse
             </tbody>
             <tfoot>
-                <td colspan="2">
+                <td colspan="4">
                     <ul class="pagination pull-right">
-                        {{$sectors->links()}}
+                        {{$companies->links()}}
                     </ul>
                 </td>
             </tfoot>
