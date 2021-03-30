@@ -34,10 +34,10 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Panel de control</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Control Panel</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{route('dashboard.sector.index')}}" class="nav-link dropdown-toggle">Sector</a></li>
-                            <li><a href="#" class="nav-link dropdown-toggle">Empresas</a></li>
+                            <li><a href="{{route('dashboard.sector.index')}}" class="nav-link dropdown-toggle">Sectors</a></li>
+                            <li><a href="#" class="nav-link dropdown-toggle">Companies</a></li>
                         </ul>
                     </li>
                 </ul>

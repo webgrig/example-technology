@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Sector extends Model
 {
     use HasFactory;
+
+    // Mass assigned
+    protected $fillable = ['title', 'parent_id'];
+    // Get children sector
+    public function children(){
+        return $this->hasMany(self::class, 'parent_id');
+    }
 }

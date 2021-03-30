@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Sector;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SectorController extends Controller
 {
@@ -15,8 +16,8 @@ class SectorController extends Controller
      */
     public function index()
     {
-        return view('admin.sectores.index', [
-            'sectores'=> Sector::paginate(10)
+        return view('dashboard.sectors.index', [
+            'sectors'=> Sector::paginate(1)
         ]);
     }
 
@@ -27,7 +28,11 @@ class SectorController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.sectors.create', [
+            'sector'    => [],
+            'sectors'  => Sector::with('children')->whereNull('parent_id')->get(),
+            'delimiter' => ''
+        ]);
     }
 
     /**
@@ -38,7 +43,11 @@ class SectorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = $request->validate([
+            'title' => 'required|string|max:255|unique:sectors'
+        ]);
+        Sector::create($request->all());
+        return redirect()->route('dashboard.sector.index');
     }
 
     /**
@@ -60,7 +69,11 @@ class SectorController extends Controller
      */
     public function edit(Sector $sector)
     {
-        //
+        return view('dashboard.sectors.edit', [
+            'sector'    => $sector,
+            'sectors'  => Sector::with('children')->whereNull('parent_id')->get(),
+            'delimiter' => ''
+        ]);
     }
 
     /**
@@ -72,7 +85,16 @@ class SectorController extends Controller
      */
     public function update(Request $request, Sector $sector)
     {
-        //
+        $validator = $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('sectors')->ignore($sector->id)
+            ]
+        ]);
+        $sector->update($request->all());
+        return redirect(route('dashboard.sector.index'));
     }
 
     /**
@@ -83,6 +105,7 @@ class SectorController extends Controller
      */
     public function destroy(Sector $sector)
     {
-        //
+        $sector->delete();
+        return redirect(route('dashboard.sector.index'));
     }
 }
