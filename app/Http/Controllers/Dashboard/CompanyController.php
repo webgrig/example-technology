@@ -56,6 +56,9 @@ class CompanyController extends Controller
         if ($request->input('sectors')){
             $company->sectors()->attach($request->input('sectors'));
         }
+        else{
+            $company->sectors()->attach(['sector_id' => null]);
+        }
 
         return redirect()->route('dashboard.company.index');
     }

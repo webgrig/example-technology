@@ -15,6 +15,7 @@
                 <th class="text-center">Name</th>
                 <th class="text-center">Phone</th>
                 <th class="text-center">Email</th>
+                <th class="text-center">Sectors</th>
                 <th class="text-right">Action</th>
             </thead>
             <tbody>
@@ -23,6 +24,7 @@
                         <td class="text-center">{{$company->name}}</td>
                         <td class="text-center">{{$company->phone}}</td>
                         <td class="text-center">{{$company->email}}</td>
+                        <td class="text-center">{{$company->sectors()->pluck('title')->implode(', ')}}</td>
                         <td class="text-right">
                             <form action="{{route('dashboard.company.destroy', $company)}}" method="post" id="{{'form-delete-' . $company->id}}">
                                 @method('delete')
@@ -34,14 +36,14 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center">
+                        <td colspan="5" class="text-center">
                             <h2>Data not available</h2>
                         </td>
                     </tr>
                 @endforelse
             </tbody>
             <tfoot>
-                <td colspan="4">
+                <td colspan="5">
                     <ul class="pagination pull-right">
                         {{$companies->links()}}
                     </ul>

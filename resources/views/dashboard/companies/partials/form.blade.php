@@ -10,7 +10,6 @@
 
 <label for="sectors" class="form-label">Parent sector</label>
 <select name="sectors[]" id="sectors" class="custom-select mb-1" multiple>
-    <option value="">-- No parent sector --</option>
     @include('dashboard.companies.partials.sectors', ['sectors' => $sectors])
 </select>
 <hr>

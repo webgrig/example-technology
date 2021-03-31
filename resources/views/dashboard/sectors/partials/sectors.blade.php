@@ -1,4 +1,9 @@
 @foreach($sectors as $sectors_list)
+    @isset($sector->id)
+        @if($sector->id == $sectors_list->id)
+            @continue
+        @endif
+    @endisset
     <option value="{{$sectors_list->id?$sectors_list->id:""}}"
         @if(old('parent_id')  == $sectors_list->id)
             selected=""
@@ -6,9 +11,6 @@
             @isset($sector->id)
                 @if($sector->parent_id == $sectors_list->id)
                     selected=""
-                @endif
-                @if($sector->id == $sectors_list->id)
-                    hidden=""
                 @endif
             @endisset
         @endif

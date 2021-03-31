@@ -14,7 +14,7 @@ class CreateSectoryableTable extends Migration
     public function up()
     {
         Schema::create('sectoryables', function (Blueprint $table) {
-            $table->integer('sector_id');
+            $table->integer('sector_id')->nullable();
             $table->integer('sectoryables_id');
             $table->text('sectoryables_type');
         });

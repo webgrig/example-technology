@@ -3,7 +3,7 @@
 
 <label for="parent_id" class="form-label">Parent sector</label>
 <select name="parent_id" id="parent_id" class="custom-select mb-1">
-    <option value="">-- No parent sector --</option>
+    <option value="">-- Without parent category --</option>
     @include('dashboard.sectors.partials.sectors', ['sectors' => $sectors])
 </select>
 <hr>
