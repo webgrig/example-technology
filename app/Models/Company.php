@@ -18,4 +18,8 @@ class Company extends Model
     public function sectors(){
         return $this->morphToMany(Sector::class, 'sectoryables');
     }
+
+    public function scopeLastCompanies($query, $count){
+        return $query->orderBy('id', 'desc')->take($count)->get();
+    }
 }

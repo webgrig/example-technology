@@ -13,8 +13,18 @@ class Sector extends Model
 
     // Mass assigned
     protected $fillable = ['title', 'parent_id'];
+
     // Get children sector
     public function children(){
         return $this->hasMany(self::class, 'parent_id');
+    }
+
+    // Polymorphic relation with companies
+    public function companies(){
+        return $this->morphedByMany(Company::class, 'sectoryables');
+    }
+
+    public function scopeLastSectors($query, $count){
+        return $query->orderBy('id', 'desc')->take($count)->get();
     }
 }

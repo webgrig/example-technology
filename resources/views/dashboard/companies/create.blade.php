@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.app_admin')
+@extends('dashboard.layouts.app_dashboard')
 @section('content')
     <div class="container">
         @component('dashboard.components.breadcrumb')

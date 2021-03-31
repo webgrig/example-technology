@@ -17,7 +17,6 @@ class CreateSectorsTable extends Migration
             $table->id();
             $table->string('title');
             $table->integer('parent_id')->nullable();
-            $table->timestamps();
         });
     }
 

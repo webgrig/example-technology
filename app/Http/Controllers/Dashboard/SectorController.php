@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Sector;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class SectorController extends Controller
@@ -105,7 +106,20 @@ class SectorController extends Controller
      */
     public function destroy(Sector $sector)
     {
-        $sector->delete();
-        return redirect(route('dashboard.sector.index'));
+        $includes_sectors = Sector::where('parent_id', $sector->id);
+        $delete_access = false;
+        if (!$includes_sectors->count()){
+            $delete_access = $sector->companies()->count() ? false : true;
+        }
+        if ($delete_access){
+            $includes_sectors->update(['parent_id' => NULL]);
+            $sector->companies()->detach();
+            $sector->delete();
+            return redirect(route('dashboard.sector.index'));
+        }
+        return view('dashboard.sectors.index', [
+            'sectors'=> Sector::paginate(2),
+            'delete_access' => $delete_access,
+        ]);
     }
 }
