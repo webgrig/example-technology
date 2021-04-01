@@ -1,5 +1,5 @@
-<label for="name" class="form-label">Name</label>
-<input type="text" class="form-control mb-1" name="name" id="name" placeholder="Name of company" value="@if(old('name')){{old('name')}}@elseif(isset($company->name)){{$company->name}}@endif" required>
+<label for="title" class="form-label">Name</label>
+<input type="text" class="form-control mb-1" name="title" id="title" placeholder="Name of company" value="@if(old('title')){{old('title')}}@elseif(isset($company->title)){{$company->title}}@endif" required>
 
 <label for="phone" class="form-label">Phone</label>
 <input type="text" class="form-control mb-1" name="phone" id="phone" placeholder="Phone of company" value="@if(old('phone')){{old('phone')}}@elseif(isset($company->phone)){{$company->phone}}@endif">

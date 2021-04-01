@@ -18,7 +18,7 @@ class SectorController extends Controller
     public function index()
     {
         return view('dashboard.sectors.index', [
-            'sectors'=> Sector::paginate(2)
+            'sectors'=> Sector::paginate(10)
         ]);
     }
 
@@ -118,7 +118,7 @@ class SectorController extends Controller
             return redirect(route('dashboard.sector.index'));
         }
         return view('dashboard.sectors.index', [
-            'sectors'=> Sector::paginate(2),
+            'sectors'=> Sector::paginate(10),
             'delete_access' => $delete_access,
         ]);
     }

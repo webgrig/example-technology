@@ -9,10 +9,8 @@ class Company extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
-
     // Mass assigned
-    protected $fillable = ['name', 'phone', 'email'];
+    protected $fillable = ['title', 'phone', 'email'];
 
     // Polymorphic relation with sectors
     public function sectors(){

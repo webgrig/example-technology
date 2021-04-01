@@ -11,13 +11,13 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 @include('layouts.top_menu', ['sectors' => $sectors])
-                @if($companies_without_category->count())
+                @if($companies_without_sector->count())
                     <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle">{{'Companies without category'}}</a>
+                        <a href="{{url("/without-sector")}}" class="nav-link dropdown-toggle">{{'Without sector'}}</a>
                         <ul class="dropdown-menu submenu">
-                            @foreach($companies_without_category as $company_item)
+                            @foreach($companies_without_sector as $company_item)
                                 <li class="nav-item">
-                                    <a href="{{url("/company/$company_item->id")}}" class="dropdown-item">{{$company_item->name}}</a>
+                                    <a href="{{url("/company/$company_item->id")}}" class="dropdown-item">{{$company_item->title}}</a>
                                 </li>
                             @endforeach
                         </ul>

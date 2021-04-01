@@ -21,7 +21,7 @@
             <tbody>
                 @forelse($companies as $company)
                     <tr>
-                        <td class="text-center">{{$company->name}}</td>
+                        <td class="text-center">{{$company->title}}</td>
                         <td class="text-center">{{$company->phone}}</td>
                         <td class="text-center">{{$company->email}}</td>
                         <td class="text-center">{{$company->sectors()->pluck('title')->implode(', ')}}</td>
@@ -44,9 +44,9 @@
             </tbody>
             <tfoot>
                 <td colspan="5">
-                    <ul class="pagination pull-right">
+                    <div class="pagination pull-right">
                         {{$companies->links()}}
-                    </ul>
+                    </div>
                 </td>
             </tfoot>
         </table>

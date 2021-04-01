@@ -18,7 +18,7 @@ class CompanyController extends Controller
     public function index()
     {
         return view('dashboard.companies.index', [
-            'companies' => Company::orderBy('id', 'desc')->paginate(2)
+            'companies' => Company::orderBy('id', 'desc')->paginate(10)
         ]);
     }
 
@@ -45,8 +45,8 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         $validator = $request->validate([
-            'name'  => 'required|string|max:255',
-            'phone' => 'required|string|max:12|unique:companies',
+            'title'  => 'required|string|max:255',
+            'phone' => 'required|string|max:9|unique:companies',
             'email' => 'required|string|email|max:255|unique:companies',
         ]);
 
@@ -100,7 +100,7 @@ class CompanyController extends Controller
     public function update(Request $request, Company $company)
     {
         $validator = $request->validate([
-            'name' => [
+            'title' => [
                 'required',
                 'string',
                 'max:255'
@@ -108,7 +108,7 @@ class CompanyController extends Controller
             'phone' => [
                 'required',
                 'string',
-                'max:12',
+                'max:9',
                 Rule::unique('companies')->ignore($company->id)
             ],
             'email' => [
@@ -121,10 +121,14 @@ class CompanyController extends Controller
         ]);
         $company->update($request->all());
 
-        // sectors
+        // Sectors
+
         $company->sectors()->detach();
         if ($request->input('sectors')){
             $company->sectors()->attach($request->input('sectors'));
+        }
+        else{
+            $company->sectors()->attach(['sector_id' => null]);
         }
 
         return redirect(route('dashboard.company.index'));

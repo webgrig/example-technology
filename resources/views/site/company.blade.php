@@ -1,22 +1,29 @@
 @extends('layouts.app')
 
-@php
-    $title = !empty($company)? $company->name : '';
-@endphp
 @section('title', $title)
-
 @section('content')
     <div class="container">
-    @if($company)
-        <div class="row">
-            <div class="col-sm-12">
-                <h1><a href="{{route('company'), $company->id}}">{{$company->name}}</a></h1>
-                <p>{{$company->phone}}</p>
-                <p>{{$company->email}}</p>
+        <h2 class="text-center">{{$title}}</h2>
+        @if($company)
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>{{$company->phone}}</p>
+                    <p>{{$company->email}}</p>
+                </div>
             </div>
-        </div>
-    @else
-        <h2 class="text-center">Empty</h2>
-    @endif
+        @elseif($companies)
+            @foreach($companies as $companiy)
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2><a href="{{route('company', $companiy)}}">{{$companiy->title}}</a></h2>
+                    </div>
+                </div>
+            @endforeach
+            <div class="pagination pull-right">
+                {{$companies->links()}}
+            </div>
+        @else
+            <h2 class="text-center">Empty</h2>
+        @endif
     </div>
 @endsection

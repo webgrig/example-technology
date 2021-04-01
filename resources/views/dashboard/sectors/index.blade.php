@@ -28,12 +28,16 @@
         <table class="table table-striped">
             <thead>
                 <th>Title</th>
+                <th>Patent sector</th>
+                <th>Companies</th>
                 <th class="text-right">Action</th>
             </thead>
             <tbody>
                 @forelse($sectors as $sector)
                     <tr>
                         <td>{{$sector->title}}</td>
+                        <td>{{$sector->patentSectorTile()}}</td>
+                        <td>{{$sector->companies()->pluck('title')->implode(', ')}}</td>
                         <td class="text-right">
                             <form action="{{route('dashboard.sector.destroy', $sector)}}" method="post" id="{{'form-delete-' . $sector->id}}">
                                 @method('delete')
@@ -45,17 +49,17 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="2" class="text-center">
+                        <td colspan="4" class="text-center">
                             <h2>Data not available</h2>
                         </td>
                     </tr>
                 @endforelse
             </tbody>
             <tfoot>
-                <td colspan="2">
-                    <ul class="pagination pull-right">
+                <td colspan="4">
+                    <div class="pagination pull-right">
                         {{$sectors->links()}}
-                    </ul>
+                    </div>
                 </td>
             </tfoot>
         </table>

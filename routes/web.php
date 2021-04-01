@@ -16,18 +16,23 @@ use App\Http\Controllers\SiteController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//Route::group(['prefix' => false ], function (){
+//
+//});
+
+Route::get('/', [SiteController::class, 'index'])->name('index');
+Route::get('/without-sector', [SiteController::class, 'withoutSector'])->name('without-sector');
 Route::get('/sector/{id?}', [SiteController::class, 'sector'])->name('sector');
 Route::get('/company/{id?}', [SiteController::class, 'company'])->name('company');
+
+
 
 
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified']], function (){
     Route::get('/', [DashBoardController::class, 'dashboard'])->name('dashboard.index');
     Route::resource('/sector', SectorController::class, ['as'=>'dashboard']);
     Route::resource('/company', CompanyController::class, ['as'=>'dashboard']);
-});
-
-Route::get('/', function () {
-    return view('home');
 });
 
 Auth::routes(['verify' => true]);

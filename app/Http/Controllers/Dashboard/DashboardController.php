@@ -16,8 +16,8 @@ class DashboardController extends Controller
     // Dashboard
     public function dashboard(){
         return view('dashboard.dashboard', [
-            'sectors' => Sector::lastSectors(5),
-            'companies' => Company::lastCompanies(5),
+            'sectors' => Sector::lastSectors(12),
+            'companies' => Company::lastCompanies(12),
             'count_sectors' => Sector::count(),
             'count_companies' => Company::count(),
         ]);

@@ -6,7 +6,6 @@ use App\Models\Company;
 use App\Models\Sector;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
-use Illuminate\Http\Request;
 
 class MenuServiceProvider extends ServiceProvider
 {
@@ -25,10 +24,10 @@ class MenuServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Request $request)
+    public function boot()
     {
         $this->topMenu();
-        $this->companies_without_category();
+        $this->companies_without_sector();
     }
 
     // Top menu for site
@@ -39,14 +38,14 @@ class MenuServiceProvider extends ServiceProvider
     }
 
     // Articles without categories
-    public function companies_without_category(){
-        View::composer('layouts.header', function ($view){
-            $companies_without_category = Company::leftJoin('sectoryables', function ($joun){
-                $joun->on('companies.id', '=', 'sectoryables.sectoryables_id')
-                    ->whereNull('sectoryables_id');
-            })->get();
+    public function companies_without_sector(){
+        View::composer(['layouts.header', 'site.without-sector'], function ($view){
+            $companies_without_sector = Company::leftJoin('sectoryables', function ($joun){
+                $joun->on('companies.id', '=', 'sectoryables.sectoryables_id');
+            })
+            ->whereNull('sector_id')->get();
             $view->with([
-                'companies_without_category' => $companies_without_category,
+                'companies_without_sector' => $companies_without_sector,
             ]);
         });
     }
