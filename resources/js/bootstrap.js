@@ -38,6 +38,11 @@ modalConfirm(function(confirm){
     return confirm;
 });
 
+$('.button-redirect').on('click', function (){
+    window.location.replace($(this).data('redirect'))
+    console.log(this)
+})
+
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

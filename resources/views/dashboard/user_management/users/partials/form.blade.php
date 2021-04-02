@@ -31,3 +31,4 @@
 
 <hr>
 <input type="submit" class="btn btn-primary" value="Save">
+<input type="button" class="btn btn-primary button-redirect" data-redirect="{{route('dashboard.user_management.user.index')}}" value="Cancel">

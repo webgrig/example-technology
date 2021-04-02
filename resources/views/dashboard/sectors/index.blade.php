@@ -15,7 +15,7 @@
                     <div class="col-sm-12">
                         <div class="alert alert-danger">
                             <ul>
-                                <li>To delete this sector, you must first change the parent sector for the companies and sectors included in it!</li>
+                                <li>Operation canceled! To delete this sector, you first need to delete all elements included in it (companies and sectors).</li>
                             </ul>
                         </div>
                     </div>
@@ -25,10 +25,10 @@
 
         <a href="{{route('dashboard.sector.create')}}" class="btn btn-primary pull-right mb-3"><i
                 class="fa fa-plus-square-o"></i> Create sector</a>
-        <table class="table table-striped">
+        <table class="table table-striped table-hover container">
             <thead>
                 <th>Title</th>
-                <th>Patent sector</th>
+                <th>Parent sector</th>
                 <th>Companies</th>
                 <th class="text-right">Action</th>
             </thead>
@@ -36,8 +36,8 @@
                 @forelse($sectors as $sector)
                     <tr>
                         <td>{{$sector->title}}</td>
-                        <td>{{$sector->patentSectorTile()}}</td>
-                        <td>{{$sector->companies()->pluck('title')->implode(', ')}}</td>
+                        <td class="w-auto">{{$sector->patentSectorTile()}}</td>
+                        <td class="w-50">{{$sector->companies()->pluck('title')->implode(', ')}}</td>
                         <td class="text-right">
                             <form action="{{route('dashboard.sector.destroy', $sector)}}" method="post" id="{{'form-delete-' . $sector->id}}">
                                 @method('delete')

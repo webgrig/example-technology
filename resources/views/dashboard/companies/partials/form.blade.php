@@ -14,3 +14,4 @@
 </select>
 <hr>
 <input type="submit" class="btn btn-primary" value="Save">
+<input type="button" class="btn btn-primary button-redirect" data-redirect="{{route('dashboard.company.index')}}" value="Cancel">

@@ -38,6 +38,7 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'App\Http\Controllers\Dash
     Route::resource('/company', 'CompanyController', ['as'=>'dashboard']);
 
     Route::group(['middleware' => ['role:super']], function (){
+        Route::get('/dashboard/sector/{sector}/edit', [SectorController::class, 'edit'])->name('dashboard.sector.edit');
         Route::get('/dashboard/sector/create', [SectorController::class, 'create'])->name('dashboard.sector.create');
         Route::get('/dashboard/company/create', [CompanyController::class, 'create'])->name('dashboard.company.create');
     });
