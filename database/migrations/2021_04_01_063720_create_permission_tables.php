@@ -41,7 +41,7 @@ class CreatePermissionTables extends Migration
         // Creating roles admin, writer, user
         DB::table('roles')->insert([
             [
-                'name' => 'admin',
+                'name' => 'super',
                 'guard_name' => 'web'
             ],
             [
@@ -85,6 +85,15 @@ class CreatePermissionTables extends Migration
             $table->primary(['role_id', $columnNames['model_morph_key'], 'model_type'],
                     'model_has_roles_role_model_type_primary');
         });
+
+        // Creating roles admin, writer, user
+        DB::table('model_has_roles')->insert([
+            [
+                'role_id' => 1,
+                'model_type' => 'App\Models\User',
+                'model_id' => 1
+            ]
+        ]);
 
         Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames) {
             $table->unsignedBigInteger('permission_id');

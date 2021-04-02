@@ -14,15 +14,17 @@ try {
 } catch (e) {}
 
 let modalConfirm = function(callback){
-    let btnConfirm = $(".btn-modal-confirm");
-    btnConfirm.on("click", function(){
+    let btnsDel = $(".btn-modal-confirm");
+    let btnConfirm;
+    btnsDel.on("click", function(){
+        btnConfirm = this;
         $("#mi-modal").modal('show');
     });
 
     $("#modal-btn-si").on("click", function(){
         callback(true);
         $("#mi-modal").modal('hide');
-        let form = $("#" + btnConfirm.data('formId'))
+        let form = $("#" + $(btnConfirm).data('formId'))
         form.submit();
     });
 

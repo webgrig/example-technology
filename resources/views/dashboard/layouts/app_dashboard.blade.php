@@ -40,6 +40,12 @@
                             <li><a href="{{route('dashboard.company.index')}}" class="nav-link dropdown-item">Companies</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">User management</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{route('dashboard.user_management.user.index')}}" class="nav-link dropdown-item">Users</a></li>
+                        </ul>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

@@ -27,14 +27,20 @@ Route::get('/sector/{id?}', [SiteController::class, 'sector'])->name('sector');
 Route::get('/company/{id?}', [SiteController::class, 'company'])->name('company');
 
 
+Route::group(['prefix' => 'dashboard', 'namespace' => 'App\Http\Controllers\Dashboard', 'middleware' => ['auth', 'verified', 'role:super|writer']], function (){
 
-
-Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified']], function (){
     Route::get('/', [DashBoardController::class, 'dashboard'])->name('dashboard.index');
-    Route::resource('/sector', SectorController::class, ['as'=>'dashboard']);
-    Route::resource('/company', CompanyController::class, ['as'=>'dashboard']);
+    Route::group(['prefix' => 'user_management', 'namespace' => 'UserManagement', 'middleware' => ['role:super']], function(){
+        Route::resource('/user', 'UserController', ['as' => 'dashboard.user_management']);
+    });
+
+    Route::resource('/sector', 'SectorController', ['as'=>'dashboard']);
+    Route::resource('/company', 'CompanyController', ['as'=>'dashboard']);
+
+    Route::group(['middleware' => ['role:super']], function (){
+        Route::get('/dashboard/sector/create', [SectorController::class, 'create'])->name('dashboard.sector.create');
+        Route::get('/dashboard/company/create', [CompanyController::class, 'create'])->name('dashboard.company.create');
+    });
 });
 
 Auth::routes(['verify' => true]);
-
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('verified')->name('home');
