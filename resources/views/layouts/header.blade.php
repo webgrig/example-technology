@@ -24,25 +24,7 @@
                     </li>
                 @endif
             </ul>
-            <script>
-                window.onload = function () {
-                    $(function () {
-                        $(document).on('click', 'body', function (e) {
-                            $('.dropdown .submenu').hide();
-                            e.stopPropagation();
-                        });
-
-                        // make it as accordion for smaller screens
-                        $('.dropdown a').mouseover(function (e) {
-                            e.preventDefault();
-                            if ($(this).next('.submenu').length) {
-                                $(this).next('.submenu').slideToggle(100);
-                            }
-                        });
-                    });
-                };
-            </script>
-
+            <button type="button" class="btn btn-primary btn-modal-confirm" data-form-id="{{'form-delete-' . $sector->id}}"><i class="fa fa-money"></i></button>
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->

@@ -12,5 +12,13 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    .js('resources/js/dashboard/app.js', 'public/js/dashboard')
+    .vue()
     .sass('resources/sass/app.scss', 'public/css')
+    .sass('resources/sass/dashboard/app.scss', 'public/css/dashboard')
+    // .postCss('resources/css/dashboard/app.css', 'public/css/dashboard', [
+    //     require('postcss-import'),
+    //     require('tailwindcss'),
+    //     require('autoprefixer'),
+    // ])
     .sourceMaps();

@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 @import "node_modules/font-awesome/scss/font-awesome.scss";
 
-// Variables
-@import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+
+// Variables
+@import '../variables';
+@import "~bootstrap/scss/bootstrap";
 h1, h2, h3, h4 {
     font-size: 10px;
 }
@@ -63,3 +63,4 @@ h1, h2, h3, h4 {
         font-size: 20px;
     }
 }
+
