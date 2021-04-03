@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Request;
 
-class Filter extends JsonResource
+class RequestToArray extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -13,13 +13,12 @@ class Filter extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray(Reqest $request)
+    public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'title' => $this->company_title,
-            'email' => $this->company_email,
-            'phone' => $this->company_phone,
+            'title' => $this->title,
+            'email' => $this->email,
+            'phone' => $this->phone,
         ];
     }
 }

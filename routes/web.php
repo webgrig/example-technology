@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\SectorController;
 use App\Http\Controllers\Dashboard\CompanyController;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\CompanyFilterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,8 @@ use App\Http\Controllers\SiteController;
 //Route::group(['prefix' => false ], function (){
 //
 //});
+
+Route::get('/filter', [CompanyFilterController::class, 'index'])->name('filter');
 
 Route::get('/', [SiteController::class, 'index'])->name('index');
 Route::get('/without-sector', [SiteController::class, 'withoutSector'])->name('without-sector');

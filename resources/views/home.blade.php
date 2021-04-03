@@ -33,5 +33,4 @@
             </div>
         </div>
     </div>
-    @component('dashboard.components.modal-currency')@endcomponent
 @endsection

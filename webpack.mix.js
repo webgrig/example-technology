@@ -17,8 +17,8 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/dashboard/app.scss', 'public/css/dashboard')
     // .postCss('resources/css/dashboard/app.css', 'public/css/dashboard', [
-    //     require('postcss-import'),
-    //     require('tailwindcss'),
-    //     require('autoprefixer'),
+    //     // require('postcss-import'),
+    //     // require('tailwindcss'),
+    //     // require('autoprefixer')
     // ])
     .sourceMaps();

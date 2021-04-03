@@ -28,7 +28,13 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "classmap": [
+            "./app/Http/Filtres/CompanyFilter.php",
+            "./app/Http/Filtres/Filterable.php",
+            "./app/Http/Filtres/QueryFilter.php",
+            "app/Http/Resources/RequestToArray.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

@@ -1,5 +1,4 @@
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
-    <currency-api></currency-api>
     <div class="modal-dialog modal-lg">
         <div class="modal-content" id="test">
             <div class="modal-header">

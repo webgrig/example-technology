@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Filters\Filterable;
 
 class Company extends Model
 {
-    use HasFactory;
+    use HasFactory, Filterable;
 
     // Mass assigned
     protected $fillable = ['title', 'phone', 'email'];

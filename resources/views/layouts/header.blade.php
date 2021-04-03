@@ -24,7 +24,7 @@
                     </li>
                 @endif
             </ul>
-            <button type="button" class="btn btn-primary btn-modal-confirm" data-form-id="{{'form-delete-' . $sector->id}}"><i class="fa fa-money"></i></button>
+            <button type="button" class="btn btn-primary btn-modal-confirm"><i class="fa fa-money"></i></button>
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->

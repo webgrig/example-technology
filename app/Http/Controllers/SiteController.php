@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 class SiteController extends Controller
 {
 
-    public function index(){
+    public function index(Request $request){
         $sectors = Sector::filledSectors()->take(10)->get();
         return view('home', [
             'sectors' => $sectors,

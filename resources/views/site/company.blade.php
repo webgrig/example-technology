@@ -7,8 +7,10 @@
         @if($company)
             <div class="row">
                 <div class="col-sm-12">
-                    <p>{{$company->phone}}</p>
-                    <p>{{$company->email}}</p>
+                    <h1><span class="text-sm">phone: </span>{{$company->phone}}</h1>
+                    <h1><span class="text-sm">email: {{$company->email}}</span></h1>
+                    <p><span class="text-sm">sectors: {{$company->sectors()->pluck('title')->implode(', ')}}</span>
+                    </p>
                 </div>
             </div>
         @elseif($companies)
