@@ -1,0 +1,19 @@
+composer:
+  image: composer:latest
+  container_name: composer
+  volumes:
+    - ./src:/var/www/html
+  working_dir: /var/www/html
+  depends_on:
+    - php
+  networks:
+    - laravel
+  npm:
+    image: node:latest
+    container_name: npm
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: [ 'npm', '--no-bin-links' ]
+    networks:
+      - laravel

@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fast-xml-parser/3.16.0/parser.min.js'>
     <script src="{{ asset('js/filter_form/modernizr.custom.js')}}"></script>
 
     <!-- Fonts -->
@@ -36,6 +37,9 @@
             </div>
             @yield('content')
         </main>
+        <div id="currency">
+            <currency-xml></currency-xml>
+        </div>
     </div>
 
     <script src="{{ asset('js/filter_form/classie.js')}}"></script>

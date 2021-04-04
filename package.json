@@ -13,8 +13,13 @@
         "@tailwindcss/forms": "^0.2.1",
         "alpinejs": "^2.7.3",
         "autoprefixer": "^10.1.0",
-        "axios": "^0.21",
         "bootstrap": "^4.0.0",
+        "eslint": "^7.23.0",
+        "eslint-config-standard": "^16.0.2",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.3.1",
+        "eslint-plugin-vue": "^7.8.0",
         "jquery": "^3.2",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
@@ -29,6 +34,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "axios": "^0.21.1",
         "font-awesome": "^4.7.0",
         "vue": "^2.6.12"
     }

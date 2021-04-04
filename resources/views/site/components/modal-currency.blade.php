@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content" id="test">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Currency Converter</h5>
                 <button type="button" class="close pt-1 pr-2" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div id="test">
