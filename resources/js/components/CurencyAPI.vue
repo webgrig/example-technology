@@ -34,20 +34,7 @@
                     <h1>48.23</h1>
                 </div>
             </div>
-            <form>
-                <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Recipient:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                </div>
-                <div class="mb-3">
-                    <label for="message-text" class="col-form-label">Message:</label>
-                    <textarea class="form-control" id="message-text"></textarea>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Send message</button>
+
         </div>
     </div>
 </template>
@@ -58,8 +45,8 @@ export default {
         return {
             currencies: {},
             amount: null,
-            from: 'PR',
-            to: 'ME',
+            from: 'USD',
+            to: 'PHP',
             result: null,
         }
     },
@@ -78,7 +65,7 @@ export default {
                 this.currencies = JSON.parse(currencies);
                 return;
             }
-            axios.get('https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml')
+            axios.get('https://free.currconv.com/api/v7/countries?apiKey=44c8ee9eb2df03610d1e')
                 .then(response => {
                     this.currencies = response.data.results;
                     console.log(response)
@@ -86,14 +73,14 @@ export default {
                 });
         },
         convertCurrency(){
-            // const search = `${this.from}_${this.to}`;
-            //
-            // axios.get(`https://free.currconv.com/api/v7/convert?q=${search}&compact=ultra&callback=sampleCallback&apiKey=44c8ee9eb2df03610d1e`)
-            // .then((response) => {
-            //     // this.result = response.data.results[search].val;
-            //
-            //     console.log(response)
-            // });
+            const search = `${this.from}_${this.to}`;
+            const string = `https://free.currconv.com/api/v7/convert?q=${search}&compact=y&apiKey=44c8ee9eb2df03610d1e&callback=sampleCallback`;
+            axios.get(string)
+            .then((response) => {
+                this.result = response.data.results[search].val;
+
+                console.log(string)
+            });
 
         }
     }

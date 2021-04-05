@@ -23,12 +23,13 @@
         @endif
         <a href="{{route('dashboard.user_management.user.create')}}" class="btn btn-primary pull-right mb-3"><i
                 class="fa fa-plus-square-o"></i> Create user</a>
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
             <thead>
-            <th class="text-center">Name</th>
-            <th class="text-center">Email</th>
-            <th class="text-center">Role</th>
-            <th class="text-right">Actions</th>
+                <th class="w5pr">Name</th>
+                <th class="w15pr">Email</th>
+                <th class="w30pr">Role</th>
+                <th class="w25pr">Sectors</th>
+                <th class="w25pr text-right">Action</th>
             </thead>
             <tbody>
             @forelse($users as $user)
@@ -36,13 +37,14 @@
                     <td class="text-center">
                         {{$user->name}}
                     </td>
-                    <td class="text-center">{{$user->email}}</td>
-                    <td class="text-center">
+                    <td>{{$user->email}}</td>
+                    <td>
                         @foreach($allRoles as $role)
                             @if($user->hasAnyRole($role->name))
                                 <p>{{$role->name}}</p>
                             @endif
                         @endforeach</td>
+                    <td>{{$user->sectors()->pluck('title')->implode(', ')}}</td>
                     <td class="text-right">
                         <form action="{{route('dashboard.user_management.user.destroy', $user)}}" method="post" id="{{'form-delete-' . $user->id}}">
                             @method('delete')
@@ -54,14 +56,14 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="text-center">
+                    <td colspan="5" class="text-center">
                         <h2>Data not available</h2>
                     </td>
                 </tr>
             @endforelse
             </tbody>
             <tfoot>
-            <td colspan="4">
+            <td colspan="5">
                 <div class="pagination pull-right">
                     {{$users->links()}}
                 </div>

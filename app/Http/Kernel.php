@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'search_company' => \App\Http\Middleware\RedirectIfSearch::class,
+        'user-permission' => \App\Http\Middleware\UserPermissionsMiddleware::class,
     ];
 }

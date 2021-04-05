@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\This;
 
 class Sector extends Model
@@ -18,6 +19,7 @@ class Sector extends Model
     public function children(){
         return $this->hasMany(self::class, 'parent_id');
     }
+
 
     // Get parent sector
     public function scopePatentSectorTile(){
@@ -36,6 +38,22 @@ class Sector extends Model
     // Polymorphic relation with companies
     public function companies(){
         return $this->morphedByMany(Company::class, 'sectoryables');
+    }
+
+    // Company is children or no?
+    public function isCompanyChildren($company_id){
+        return DB::table('sectoryables')->where(['sectoryables_id' => $company_id, 'sector_id' =>$this->id])->count();
+    }
+
+
+    // Polymorphic relation with users
+    public function users(){
+        return $this->morphedByMany(User::class, 'usersectoryables');
+    }
+
+    // User is children or no?
+    public function isUsersChildren($user_id){
+        return DB::table('usersectoryables')->where(['usersectoryables_id' => $user_id, 'sector_id' =>$this->id])->count();
     }
 
     public function scopeLastSectors($query, $count){

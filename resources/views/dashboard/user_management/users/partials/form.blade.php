@@ -9,26 +9,21 @@
 
 <label for="password_confirmation" class="form-label">Password confirmation</label>
 <input type="password" class="form-control mb-1" name="password_confirmation" id="password_confirmation">
+
+
 <label for="role" class="form-label">Role</label>
 <select name="role" id="role" class="custom-select mb-1">
-    @foreach($allRoles as $role)
-        @if($user)
-            @if(old('role') == $role->name)
-                <option value="{{$role->name}}" selected>{{$role->name}}</option>
-            @elseif(!old('role') && $user->hasAnyRole($role->name))
-                <option value="{{$role->name}}" selected>{{$role->name}}</option>
-            @else
-                <option value="{{$role->name}}">{{$role->name}}</option>
-            @endif
-        @elseif(old('role') == $role->name)
-            <option value="{{$role->name}}" selected>{{$role->name}}</option>
-        @else
-            <option value="{{$role->name}}">{{$role->name}}</option>
-        @endif
-    @endforeach
+    @if($user)
+        @include('dashboard.user_management.users.partials.user-isset', ['allRoles' => $allRoles])
+    @else
+        @include('dashboard.user_management.users.partials.user-not-isset', ['allRoles' => $allRoles])
+    @endif
 </select>
 
-
+<label for="sectors" class="form-label">Parent sector</label>
+<select name="sectors[]" id="sectors" class="custom-select mb-1" multiple>
+    @include('dashboard.user_management.users.partials.sectors', ['sectors' => $sectors])
+</select>
 <hr>
 <input type="submit" class="btn btn-primary" value="Save">
 <input type="button" class="btn btn-primary button-redirect" data-redirect="{{route('dashboard.user_management.user.index')}}" value="Cancel">

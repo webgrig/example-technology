@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard\UserManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Sector;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -35,6 +36,8 @@ class UserController extends Controller
         return view('dashboard.user_management.users.create', [
             'user' => [],
             'allRoles' => Role::all(),
+            'sectors'   => Sector::with('children')->whereNull('parent_id')->get(),
+            'delimiter' => ''
         ]);
     }
 
@@ -58,6 +61,11 @@ class UserController extends Controller
             'password' => Hash::make($request['password']),
         ]);
         $user->assignRole($request['role']);
+
+        // Sectors
+        if ($request->input('sectors')){
+            $user->sectors()->attach($request->input('sectors'));
+        }
 
         return redirect()->route('dashboard.user_management.user.index');
     }
@@ -84,6 +92,8 @@ class UserController extends Controller
         return view('dashboard.user_management.users.edit', [
             'user' => $user,
             'allRoles' => Role::all(),
+            'sectors'   => Sector::with('children')->whereNull('parent_id')->get(),
+            'delimiter' => ''
         ]);
     }
 
@@ -117,10 +127,19 @@ class UserController extends Controller
                 'user' => $user,
                 'allRoles' => Role::all(),
                 'edit_access' => $edit_access,
+                'sectors'   => Sector::with('children')->whereNull('parent_id')->get(),
+                'delimiter' => ''
             ]);
         }
         $user->save();
         $user->syncRoles([$request['role']]);
+
+        // Sectors
+        $user->sectors()->detach();
+        if ($request->input('sectors')){
+            $user->sectors()->attach($request->input('sectors'));
+        }
+
         return redirect()->route('dashboard.user_management.user.index');
     }
 
@@ -134,6 +153,8 @@ class UserController extends Controller
     {
         $delete_access = $user->id == 1 ? false : true;
         if ($delete_access){
+            $user->sectors()->detach();
+            $user->syncRoles([]);
             $user->delete();
             return redirect()->route('dashboard.user_management.user.index');
         }
@@ -141,6 +162,8 @@ class UserController extends Controller
             'delete_access' => $delete_access,
             'users' => User::paginate(10),
             'allRoles' => Role::all(),
+            'sectors'   => Sector::with('children')->whereNull('parent_id')->get(),
+            'delimiter' => ''
         ]);
     }
 }

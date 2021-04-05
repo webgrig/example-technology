@@ -1,8 +1,12 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class CreatePermissionTables extends Migration
 {
@@ -38,22 +42,6 @@ class CreatePermissionTables extends Migration
             $table->unique(['name', 'guard_name']);
         });
 
-        // Creating roles admin, writer, user
-        DB::table('roles')->insert([
-            [
-                'name' => 'super',
-                'guard_name' => 'web'
-            ],
-            [
-                'name' => 'writer',
-                'guard_name' => 'web'
-            ],
-            [
-                'name' => 'user',
-                'guard_name' => 'web'
-            ],
-        ]);
-
         Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames) {
             $table->unsignedBigInteger('permission_id');
 
@@ -86,15 +74,6 @@ class CreatePermissionTables extends Migration
                     'model_has_roles_role_model_type_primary');
         });
 
-        // Creating roles admin, writer, user
-        DB::table('model_has_roles')->insert([
-            [
-                'role_id' => 1,
-                'model_type' => 'App\Models\User',
-                'model_id' => 1
-            ]
-        ]);
-
         Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames) {
             $table->unsignedBigInteger('permission_id');
             $table->unsignedBigInteger('role_id');
@@ -115,6 +94,53 @@ class CreatePermissionTables extends Migration
         app('cache')
             ->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
             ->forget(config('permission.cache.key'));
+
+        // Reset cached roles and permissions
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
+        // create permissions
+        Permission::create(['name' => 'control self companies']);
+        Permission::create(['name' => 'control companies']);
+        Permission::create(['name' => 'control sectors']);
+        Permission::create(['name' => 'control users']);
+
+        // create roles and assign existing permissions
+        $role1 = Role::create(['name' => 'manager']);
+        $role1->givePermissionTo('control self companies');
+
+        $role2 = Role::create(['name' => 'admin']);
+        $role2->givePermissionTo('control companies');
+        $role2->givePermissionTo('control self companies');
+        $role2->givePermissionTo('control sectors');
+
+        $role3 = Role::create(['name' => 'super-admin']);
+        // gets all permissions via Gate::before rule; see AuthServiceProvider
+
+        // create demo users
+
+        $user = User::factory()->create([
+            'name' => 'user1',
+            'email' => 'superadmin@example.com',
+            'email_verified_at' => date("Y-m-d H:i:s"),
+            'password' => '$2y$10$BMEw0c89NtT5rFd36teS8eAP1EvLeCQXg7nWVMYM8oXEYjIt3z1Sq',
+        ]);
+        $user->assignRole($role3);
+
+        $user = User::factory()->create([
+            'name' => 'user2',
+            'email' => 'admin@example.com',
+            'email_verified_at' => date("Y-m-d H:i:s"),
+            'password' => '$2y$10$BMEw0c89NtT5rFd36teS8eAP1EvLeCQXg7nWVMYM8oXEYjIt3z1Sq',
+        ]);
+        $user->assignRole($role2);
+
+        $user = User::factory()->create([
+            'name' => 'user3',
+            'email' => 'user@example.com',
+            'email_verified_at' => date("Y-m-d H:i:s"),
+            'password' => '$2y$10$BMEw0c89NtT5rFd36teS8eAP1EvLeCQXg7nWVMYM8oXEYjIt3z1Sq',
+        ]);
+        $user->assignRole($role1);
     }
 
     /**

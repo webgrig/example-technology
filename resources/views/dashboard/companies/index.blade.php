@@ -10,21 +10,21 @@
         <hr>
         <a href="{{route('dashboard.company.create')}}" class="btn btn-primary pull-right mb-3"><i
                 class="fa fa-plus-square-o"></i> Create company</a>
-        <table class="table table-striped">
-            <thead>
-                <th class="text-center">Name</th>
-                <th class="text-center">Phone</th>
-                <th class="text-center">Email</th>
-                <th class="text-center">Sectors</th>
-                <th class="text-right">Action</th>
-            </thead>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <th class="w5pr">Title</th>
+                    <th class="w15pr">Phone</th>
+                    <th class="w30pr">Sectors</th>
+                    <th class="w25pr">Email</th>
+                    <th class="w25pr text-right">Action</th>
+                </thead>
             <tbody>
                 @forelse($companies as $company)
                     <tr>
-                        <td class="text-center">{{$company->title}}</td>
-                        <td class="text-center">{{$company->phone}}</td>
-                        <td class="text-center">{{$company->email}}</td>
-                        <td class="text-center">{{$company->sectors()->pluck('title')->implode(', ')}}</td>
+                        <td>{{$company->title}}</td>
+                        <td>{{$company->phone}}</td>
+                        <td>{{$company->sectors->pluck('title')->implode(', ')}}</td>
+                        <td>{{$company->email}}</td>
                         <td class="text-right">
                             <form action="{{route('dashboard.company.destroy', $company)}}" method="post" id="{{'form-delete-' . $company->id}}">
                                 @method('delete')

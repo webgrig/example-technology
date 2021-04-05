@@ -30,20 +30,16 @@ Route::get('/sector/{id?}', [SiteController::class, 'sector'])->name('sector');
 Route::get('/company/{id?}', [SiteController::class, 'company'])->name('company');
 
 
-Route::group(['prefix' => 'dashboard', 'namespace' => 'App\Http\Controllers\Dashboard', 'middleware' => ['auth', 'verified', 'role:super|writer']], function (){
-
+Route::group(['prefix' => 'dashboard', 'namespace' => 'App\Http\Controllers\Dashboard'], function (){
     Route::get('/', [DashBoardController::class, 'dashboard'])->name('dashboard.index');
-    Route::group(['prefix' => 'user_management', 'namespace' => 'UserManagement', 'middleware' => ['role:super']], function(){
-        Route::resource('/user', 'UserController', ['as' => 'dashboard.user_management']);
+    Route::group(['middleware' => ['user-permission']], function (){
+        Route::resource('/company', 'CompanyController', ['as'=>'dashboard']);
     });
-
-    Route::resource('/sector', 'SectorController', ['as'=>'dashboard']);
-    Route::resource('/company', 'CompanyController', ['as'=>'dashboard']);
-
-    Route::group(['middleware' => ['role:super']], function (){
-        Route::get('/sector/{sector}/edit', [SectorController::class, 'edit'])->name('dashboard.sector.edit');
-        Route::get('/sector/create', [SectorController::class, 'create'])->name('dashboard.sector.create');
-        Route::get('/company/create', [CompanyController::class, 'create'])->name('dashboard.company.create');
+    Route::group(['middleware' => ['role:super-admin|admin']], function (){
+        Route::resource('/sector', 'SectorController', ['as'=>'dashboard']);
+    });
+    Route::group(['prefix' => 'user_management', 'namespace' => 'UserManagement', 'middleware' => ['role:super-admin']], function(){
+        Route::resource('/user', 'UserController', ['as' => 'dashboard.user_management']);
     });
 });
 

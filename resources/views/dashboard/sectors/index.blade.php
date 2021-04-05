@@ -25,19 +25,21 @@
 
         <a href="{{route('dashboard.sector.create')}}" class="btn btn-primary pull-right mb-3"><i
                 class="fa fa-plus-square-o"></i> Create sector</a>
-        <table class="table table-striped table-hover container">
+        <table class="table table-striped table-hover">
             <thead>
-                <th>Title</th>
-                <th>Parent sector</th>
-                <th>Companies</th>
-                <th class="text-right">Action</th>
+                <th class="w5pr">Title</th>
+                <th class="w15pr">Parent sector</th>
+                <th class="w30pr">Companies</th>
+                <th class="w25pr">Users</th>
+                <th class="w25pr text-right">Action</th>
             </thead>
             <tbody>
                 @forelse($sectors as $sector)
                     <tr>
                         <td>{{$sector->title}}</td>
-                        <td class="w-auto">{{$sector->patentSectorTile()}}</td>
-                        <td class="w-50">{{$sector->companies()->pluck('title')->implode(', ')}}</td>
+                        <td>{{$sector->patentSectorTile()}}</td>
+                        <td>{{$sector->companies()->pluck('title')->implode(', ')}}</td>
+                        <td>{{$sector->users()->pluck('name')->implode(', ')}}</td>
                         <td class="text-right">
                             <form action="{{route('dashboard.sector.destroy', $sector)}}" method="post" id="{{'form-delete-' . $sector->id}}">
                                 @method('delete')
@@ -49,14 +51,14 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center">
+                        <td colspan="5" class="text-center">
                             <h2>Data not available</h2>
                         </td>
                     </tr>
                 @endforelse
             </tbody>
             <tfoot>
-                <td colspan="4">
+                <td colspan="5">
                     <div class="pagination pull-right">
                         {{$sectors->links()}}
                     </div>

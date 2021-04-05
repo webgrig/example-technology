@@ -10,6 +10,11 @@ use Illuminate\Validation\Rule;
 
 class CompanyController extends Controller
 {
+
+//    public function __construct()
+//    {
+//
+//    }
     /**
      * Display a listing of the resource.
      *
@@ -122,7 +127,6 @@ class CompanyController extends Controller
         $company->update($request->all());
 
         // Sectors
-
         $company->sectors()->detach();
         if ($request->input('sectors')){
             $company->sectors()->attach($request->input('sectors'));

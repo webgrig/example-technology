@@ -21,7 +21,7 @@ window.Vue = require('vue').default;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('currency-api', require('./components/CurencyAPI.vue').default);
-Vue.component('currency-xml', require('./components/CurrencyXML').default);
+// Vue.component('currency-xml', require('./components/CurrencyXML').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -38,37 +38,37 @@ var xml = new parser.j2xParser( {
     allowBooleanAttributes: true,
 } )
 
-const currencyVue = new Vue({
-    el: '#currency',
-
-
-    template: xml.parse({
-        div: {
-            ol: {
-                li: { "_v-for": "(it,idx) in items",
-                    text_: "{{ it }}",
-                    button: { "_v-on:click": "del_item( idx )",
-                        text_: " x ",
-                    },
-                },
-            },
-            input: { "_v-model": "item", },
-            button: { "_v-on:click": "add_item()",
-                text_: "Add Item",
-            },
-        },
-    }),
-
-    data: {
-        items: [ 'aaa', 'bbb', 'ccc', ],
-        item: 'Hello Vue.js!',
-    },
-
-    methods: {
-        add_item: function () { this.items.push( this.item ) },
-        del_item: function ( _idx ) { this.items.splice( _idx, 1 ) },
-    },
-});
+// const currencyVue = new Vue({
+//     el: '#currency',
+//
+//
+//     template: xml.parse({
+//         div: {
+//             ol: {
+//                 li: { "_v-for": "(it,idx) in items",
+//                     text_: "{{ it }}",
+//                     button: { "_v-on:click": "del_item( idx )",
+//                         text_: " x ",
+//                     },
+//                 },
+//             },
+//             input: { "_v-model": "item", },
+//             button: { "_v-on:click": "add_item()",
+//                 text_: "Add Item",
+//             },
+//         },
+//     }),
+//
+//     data: {
+//         items: [ 'aaa', 'bbb', 'ccc', ],
+//         item: 'Hello Vue.js!',
+//     },
+//
+//     methods: {
+//         add_item: function () { this.items.push( this.item ) },
+//         del_item: function ( _idx ) { this.items.splice( _idx, 1 ) },
+//     },
+// });
 const app = new Vue({
     el: '#test',
 });
