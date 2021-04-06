@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-###Getting started
+### Getting started
 
 Para crear un nuevo proyecto, clone el repositorio y ejecute el comando en la línea de comandos.
 
