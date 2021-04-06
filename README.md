@@ -42,5 +42,5 @@ en la barra de direcciones del navegador ingrese la dirección http://127.0.0.1:
 ```
 login: superadmin@example.com
 
-password: 111111
+password: 11111111
 ```
