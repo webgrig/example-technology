@@ -90,7 +90,6 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $sectors = Sector::whereNull('parent_id')->get();
-        dd($sectors);
         return view('dashboard.user_management.users.edit', [
             'user' => $user,
             'allRoles' => Role::all(),
