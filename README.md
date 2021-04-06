@@ -21,7 +21,7 @@ composer install
 npm install
 ```
 
-Después de eso, en mayo de SQL, debe crear una base de datos llamada "testo_de_jorge", la codificación predeterminada es utf8mb4_unicode_ci
+Después de eso, en mayo de SQL, debe crear una base de datos llamada "testo_de_jorge", la codificación predeterminada es "utf8mb4_unicode_ci"
 
 También es necesario crear un usuario con nombre "laravel" con todos los derechos para esta base.
 Debes darle a este usuario una contraseña "laravelpass"
