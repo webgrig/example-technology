@@ -11,6 +11,7 @@
 
 Para crear un nuevo proyecto, clone el repositorio y ejecute el comando en la línea de comandos.
 
+```
 git clone git@github.com:webgrig/test-trabajo.git new-project
 
 cd new-project
@@ -18,24 +19,28 @@ cd new-project
 composer install
 
 npm install
+```
 
-después de eso, en mayo de SQL, debe crear una base de datos llamada testo_de_jorge, la codificación predeterminada es utf8mb4_unicode_ci
+Después de eso, en mayo de SQL, debe crear una base de datos llamada testo_de_jorge, la codificación predeterminada es utf8mb4_unicode_ci
 
-también es necesario crear un usuario de laravel con todos los derechos para esta base
-Debes darle a este usuario una contraseña laravelpass
+También es necesario crear un usuario con nombre "laravel" con todos los derechos para esta base.
+Debes darle a este usuario una contraseña "laravelpass"
 
 Luego debe copiar el contenido del archivo .env.example a un nuevo archivo .env
 
-para hacer esto, ingrese el comando
+Para hacer esto, ingrese el comando
 
+```
 cp .env.example .env
 
 php artisan migrate
+```
 
-después de eso, puede iniciar el servidor de desarrollo
+Después de eso, puede iniciar el servidor de desarrollo
 
 en la barra de direcciones del navegador ingrese la dirección http://127.0.0.1:8000
-
+```
 login: superadmin@example.com
 
 password: 111111
+```
