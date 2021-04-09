@@ -30,9 +30,9 @@ Route::get('/sector/{id?}', [SiteController::class, 'sector'])->name('sector');
 Route::get('/company/{id?}', [SiteController::class, 'company'])->name('company');
 
 
-Route::group(['prefix' => 'dashboard', 'namespace' => 'App\Http\Controllers\Dashboard'], function (){
+Route::group(['prefix' => 'dashboard', 'namespace' => 'App\Http\Controllers\Dashboard', 'middleware' => ['verified']], function (){
     Route::get('/', [DashBoardController::class, 'dashboard'])->name('dashboard.index');
-    Route::group(['middleware' => ['user-permission']], function (){
+    Route::group(['middleware' => ['user-permission', 'verified']], function (){
         Route::resource('/company', 'CompanyController', ['as'=>'dashboard']);
     });
     Route::group(['middleware' => ['role:super-admin|admin']], function (){
