@@ -19,13 +19,13 @@ class Company extends Model
     }
 
     public function scopeLastCompanies($query, $count){
-        return $query->orderBy('id', 'desc')->take($count)->get();
+        return $query->orderBy('id', 'desc')->take($count);
     }
 
     // List of users who can edit company
 
     public function listUsersOfCompany(){
-        $q = $this::select('name')
+        $q = $this::select(['name'])
             ->leftJoin('sectoryables', function ($joun){
                 $joun->on('companies.id', '=', 'sectoryables_id');
             })->leftJoin('usersectoryables', function ($joun){

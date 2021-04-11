@@ -4,17 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\Sector;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Collection;
 
 class SiteController extends Controller
 {
 
-    public function index(Request $request){
+    public function index(){
         $sectors = Sector::filledSectors()->take(10)->get();
         return view('home', [
             'sectors' => $sectors,
-            'companies' => Company::lastCompanies(10),
+            'companies' => Company::lastCompanies(10)->get(),
             'count_sectors' => Sector::count(),
             'count_companies' => Company::count(),
         ]);

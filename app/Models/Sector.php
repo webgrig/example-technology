@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use phpDocumentor\Reflection\Types\This;
 
 class Sector extends Model
 {
@@ -57,6 +56,6 @@ class Sector extends Model
     }
 
     public function scopeLastSectors($query, $count){
-        return $query->orderBy('id', 'desc')->take($count)->get();
+        return $query->orderBy('id', 'desc')->take($count);
     }
 }
