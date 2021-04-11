@@ -6,6 +6,7 @@
             @slot('title') Sector list @endslot
             @slot('parent') Main @endslot
             @slot('active') Sectors @endslot
+            @slot('separator') / @endslot
         @endcomponent
         <hr>
 
@@ -38,8 +39,8 @@
                     <tr>
                         <td>{{$sector->title}}</td>
                         <td>{{$sector->patentSectorTile()}}</td>
-                        <td>{{$sector->companies()->pluck('title')->implode(', ')}}</td>
-                        <td>{{$sector->users()->pluck('name')->implode(', ')}}</td>
+                        <td>{{$sector->companies()->pluck('title')->implode(' || ')}}</td>
+                        <td>{{$sector->users()->pluck('name')->implode(' || ')}}</td>
                         <td class="text-right">
                             <form action="{{route('dashboard.sector.destroy', $sector)}}" method="post" id="{{'form-delete-' . $sector->id}}">
                                 @method('delete')

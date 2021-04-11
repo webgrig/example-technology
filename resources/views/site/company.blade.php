@@ -9,7 +9,7 @@
                 <div class="col-sm-12">
                     <h1><span class="text-sm">phone: </span>{{$company->phone}}</h1>
                     <h1><span class="text-sm">email: {{$company->email}}</span></h1>
-                    <p><span class="text-sm">sectors: {{$company->sectors()->pluck('title')->implode(', ')}}</span>
+                    <p><span class="text-sm">sectors: {{$company->sectors()->pluck('title')->implode(' || ')}}</span>
                     </p>
                 </div>
             </div>

@@ -4,7 +4,9 @@
         @component('dashboard.components.breadcrumb')
             @slot('title') Editing a company @endslot
             @slot('parent') Main @endslot
-            @slot('active') Companies @endslot
+            @slot('active') {{$company->title}} @endslot
+            @slot('level2') <a href="{{route('dashboard.company.index')}}">Companies</a> @endslot
+            @slot('separator') / @endslot
         @endcomponent
         @if($errors->any())
             <div class="alert alert-danger">

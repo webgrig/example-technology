@@ -122,7 +122,7 @@ class UserController extends Controller
         $user->email = $request['email'];
         $request['password'] == null ? : Hash::make($request['password']);
 
-        $edit_access = ($user->id == 1) && $request['role'] !== 'super' ? false : true;
+        $edit_access = ($user->id == 1) && $request['role'] !== 'super-admin' ? false : true;
         if (!$edit_access){
             return view('dashboard.user_management.users.edit', [
                 'user' => $user,

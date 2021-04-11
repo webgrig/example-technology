@@ -19,7 +19,7 @@
                 @foreach($sectors as $sector)
                     <div class="list-group-item">
                         <h4 class="list-group-item-action"><a href="{{route('sector', $sector)}}">{{$sector->title}}</a></h4>
-                        <p class="list-group-item-action">{{$sector->companies()->pluck('title')->implode(', ')}}</p>
+                        <p class="list-group-item-action">{{$sector->companies()->pluck('title')->implode(' || ')}}</p>
                     </div>
                 @endforeach
             </div>
@@ -27,7 +27,7 @@
                 @foreach($companies as $company)
                     <div class="list-group-item">
                         <h4 class="list-group-item-action"><a href="{{route('company', $company)}}">{{$company->title}}</a></h4>
-                        <p class="list-group-item-action">{{$company->sectors()->pluck('title')->implode(', ')}}</p>
+                        <p class="list-group-item-action">{{$company->sectors()->pluck('title')->implode(' || ')}}</p>
                     </div>
                 @endforeach
             </div>

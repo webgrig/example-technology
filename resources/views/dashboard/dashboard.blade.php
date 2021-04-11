@@ -21,7 +21,7 @@
                         <a href="{{route('dashboard.sector.edit', $sector)}}">
                             <h4 class="list-group-item-action">{{$sector->title}}</h4>
                         </a>
-                        <p class="list-group-item-action">{{$sector->companies()->pluck('title')->implode(', ')}}</p>
+                        <p class="list-group-item-action">{{$sector->companies()->pluck('title')->implode(' || ')}}</p>
                     </div>
                 @endforeach
             </div>
@@ -32,7 +32,7 @@
                         <a href="{{route('dashboard.company.edit', $company)}}">
                             <h4 class="list-group-item-action">{{$company->title}}</h4>
                         </a>
-                        <p class="list-group-item-action">{{$company->sectors()->pluck('title')->implode(', ')}}</p>
+                        <p class="list-group-item-action">{{$company->sectors()->pluck('title')->implode(' || ')}}</p>
                     </div>
                 @endforeach
             </div>

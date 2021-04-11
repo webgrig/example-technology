@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Sector;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class SectorsSeeder extends Seeder
 {
@@ -14,16 +14,12 @@ class SectorsSeeder extends Seeder
      */
     public function run()
     {
-        // Inserting sectors data
-        for ($i = 1; $i <= 12; $i++) {
-            DB::table('sectors')->insert([
-                'id' => $i,
-                'title' => 'Sector' . $i,
-                'parent_id' => rand(NULL, 12),
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ]);
+        $parentIDs = [2, NULL, 2, NULL, 4, 4, 4, NULL, 8, 8, 4, 11];
+        foreach($parentIDs as $parentID){
+            Sector::factory()
+                ->create([
+                    'parent_id' => $parentID,
+                ]);
         }
-
     }
 }

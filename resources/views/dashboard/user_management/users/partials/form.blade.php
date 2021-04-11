@@ -20,7 +20,7 @@
     @endif
 </select>
 
-<label for="sectors" class="form-label">Parent sector</label>
+<label for="sectors" class="form-label">Sectors access</label>
 <select name="sectors[]" id="sectors" class="custom-select mb-1" multiple>
     @include('dashboard.user_management.users.partials.sectors', ['sectors' => $sectors])
 </select>

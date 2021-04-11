@@ -4,7 +4,9 @@
         @component('dashboard.components.breadcrumb')
             @slot('title') Creating a user @endslot
             @slot('parent') Main @endslot
-            @slot('active') User @endslot
+            @slot('level2') <a href="{{route('dashboard.user_management.user.index')}}">Users</a> @endslot
+            @slot('active') New user @endslot
+            @slot('separator') / @endslot
         @endcomponent
         @if($errors->any())
             <div class="alert alert-danger">

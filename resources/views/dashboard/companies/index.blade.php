@@ -6,6 +6,7 @@
             @slot('title') Company list @endslot
             @slot('parent') Main @endslot
             @slot('active') Companies @endslot
+            @slot('separator') / @endslot
         @endcomponent
         <hr>
         <a href="{{route('dashboard.company.create')}}" class="btn btn-primary pull-right mb-3"><i
@@ -13,9 +14,10 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <th class="w5pr">Title</th>
-                    <th class="w15pr">Phone</th>
+                    <th class="w10pr">Phone</th>
+                    <th class="w15pr">Email</th>
                     <th class="w30pr">Sectors</th>
-                    <th class="w25pr">Email</th>
+                    <th class="w15pr">Users</th>
                     <th class="w25pr text-right">Action</th>
                 </thead>
             <tbody>
@@ -23,8 +25,9 @@
                     <tr>
                         <td>{{$company->title}}</td>
                         <td>{{$company->phone}}</td>
-                        <td>{{$company->sectors->pluck('title')->implode(', ')}}</td>
                         <td>{{$company->email}}</td>
+                        <td>{{$company->sectors->pluck('title')->implode(' || ')}}</td>
+                        <td>{{$company->listUsersOfCompany()->pluck('name')->implode(' || ')}}</td>
                         <td class="text-right">
                             <form action="{{route('dashboard.company.destroy', $company)}}" method="post" id="{{'form-delete-' . $company->id}}">
                                 @method('delete')
@@ -36,14 +39,14 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center">
+                        <td colspan="6" class="text-center">
                             <h2>Data not available</h2>
                         </td>
                     </tr>
                 @endforelse
             </tbody>
             <tfoot>
-                <td colspan="5">
+                <td colspan="6">
                     <div class="pagination pull-right">
                         {{$companies->links()}}
                     </div>

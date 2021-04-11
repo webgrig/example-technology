@@ -41,7 +41,7 @@ class PermissionsSeeder extends Seeder
         // create demo users
 
         $user = User::factory()->create([
-            'name' => 'Example Super-Admin User',
+            'name' => 'Super-Admin',
             'email' => 'superadmin@example.com',
             'email_verified_at' => date("Y-m-d H:i:s"),
             'password' => '$2y$10$BMEw0c89NtT5rFd36teS8eAP1EvLeCQXg7nWVMYM8oXEYjIt3z1Sq',
@@ -49,7 +49,7 @@ class PermissionsSeeder extends Seeder
         $user->assignRole($role3);
 
         $user = User::factory()->create([
-            'name' => 'Example Admin User',
+            'name' => 'Admin',
             'email' => 'admin@example.com',
             'email_verified_at' => date("Y-m-d H:i:s"),
             'password' => '$2y$10$BMEw0c89NtT5rFd36teS8eAP1EvLeCQXg7nWVMYM8oXEYjIt3z1Sq',
@@ -57,8 +57,8 @@ class PermissionsSeeder extends Seeder
         $user->assignRole($role2);
 
         $user = User::factory()->create([
-            'name' => 'Example User',
-            'email' => 'test@example.com',
+            'name' => 'Manager',
+            'email' => 'manager@example.com',
             'email_verified_at' => date("Y-m-d H:i:s"),
             'password' => '$2y$10$BMEw0c89NtT5rFd36teS8eAP1EvLeCQXg7nWVMYM8oXEYjIt3z1Sq',
         ]);

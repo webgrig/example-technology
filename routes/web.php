@@ -18,10 +18,6 @@ use App\Http\Controllers\CompanyFilterController;
 |
 */
 
-//Route::group(['prefix' => false ], function (){
-//
-//});
-
 Route::get('/filter', [CompanyFilterController::class, 'index'])->name('filter');
 
 Route::get('/', [SiteController::class, 'index'])->name('index');

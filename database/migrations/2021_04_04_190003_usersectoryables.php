@@ -18,29 +18,6 @@ class Usersectoryables extends Migration
             $table->integer('usersectoryables_id');
             $table->text('usersectoryables_type');
         });
-
-        // Inserting usersectoryables data
-        DB::table('usersectoryables')->insert([
-            ['sector_id' => 1, 'usersectoryables_id' => 1, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 2, 'usersectoryables_id' => 1, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 3, 'usersectoryables_id' => 1, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 4, 'usersectoryables_id' => 1, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 5, 'usersectoryables_id' => 1, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 6, 'usersectoryables_id' => 1, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 7, 'usersectoryables_id' => 1, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 8, 'usersectoryables_id' => 1, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 3, 'usersectoryables_id' => 2, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 4, 'usersectoryables_id' => 2, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 5, 'usersectoryables_id' => 2, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 6, 'usersectoryables_id' => 2, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 7, 'usersectoryables_id' => 2, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 8, 'usersectoryables_id' => 2, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 9, 'usersectoryables_id' => 2, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 10, 'usersectoryables_id' => 2, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 1, 'usersectoryables_id' => 3, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 8, 'usersectoryables_id' => 3, 'usersectoryables_type' => 'App\\Models\\User'],
-            ['sector_id' => 11, 'usersectoryables_id' => 3, 'usersectoryables_type' => 'App\\Models\\User'],
-            ]);
     }
 
     /**
@@ -50,6 +27,6 @@ class Usersectoryables extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('usersectoryables');
     }
 }

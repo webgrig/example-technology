@@ -33,7 +33,7 @@ Para hacer esto, ingrese el comando
 ```
 cp .env.example .env
 
-php artisan migrate
+php artisan migrate --seed
 ```
 
 Después de eso, puede iniciar el servidor de desarrollo

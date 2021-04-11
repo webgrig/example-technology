@@ -4,7 +4,9 @@
         @component('dashboard.components.breadcrumb')
             @slot('title') Editing a sector @endslot
             @slot('parent') Main @endslot
-            @slot('active') Sectors @endslot
+            @slot('active') {{$sector->title}} @endslot
+            @slot('level2') <a href="{{route('dashboard.sector.index')}}">Sectors</a> @endslot
+            @slot('separator') / @endslot
         @endcomponent
         @if($errors->any())
             <div class="alert alert-danger">

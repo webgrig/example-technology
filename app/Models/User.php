@@ -51,14 +51,16 @@ class User extends Authenticatable implements MustVerifyEmail
     // If user can edit company
 
     public function canEditCompany($company_id){
-        $canUserEditCompany = $this::select('id')->leftJoin('usersectoryables', function ($joun){
+        $canUserEditCompany = $this::select('id')
+            ->leftJoin('usersectoryables', function ($joun){
             $joun->on('users.id', '=', 'usersectoryables_id');
         })->leftJoin('sectoryables', function ($joun){
             $joun->on('sectoryables.sector_id', '=', 'usersectoryables.sector_id');
         })
             ->where(['usersectoryables_id' => $this->id])
             ->where(['sectoryables_id' => $company_id])
-            ->groupBy('id')->count();
+            ->groupBy('id')
+            ->count();
         if ($canUserEditCompany) {
             return true;
         }

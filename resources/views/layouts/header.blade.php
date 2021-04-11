@@ -17,7 +17,7 @@
                         <ul class="dropdown-menu submenu">
                             @foreach($companies_without_sector as $company_item)
                                 <li class="nav-item">
-                                    <a href="{{url("/company/$company_item->id")}}" class="dropdown-item">{{$company_item->title}}</a>
+                                    <a href="{{url("/company/$company_item->id")}}" class="nav-link">{{$company_item->title}}</a>
                                 </li>
                             @endforeach
                         </ul>

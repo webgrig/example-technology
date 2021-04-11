@@ -6,6 +6,7 @@
             @slot('title') User list @endslot
             @slot('parent') Main @endslot
             @slot('active') Users @endslot
+            @slot('separator') / @endslot
         @endcomponent
         <hr>
         @if(isset($delete_access))
@@ -27,8 +28,8 @@
             <thead>
                 <th class="w5pr">Name</th>
                 <th class="w15pr">Email</th>
-                <th class="w30pr">Role</th>
-                <th class="w25pr">Sectors</th>
+                <th class="w5pr">Role</th>
+                <th class="w50pr">Sectors</th>
                 <th class="w25pr text-right">Action</th>
             </thead>
             <tbody>
@@ -44,7 +45,7 @@
                                 <p>{{$role->name}}</p>
                             @endif
                         @endforeach</td>
-                    <td>{{$user->sectors()->pluck('title')->implode(', ')}}</td>
+                    <td>{{$user->sectors()->pluck('title')->implode(' || ')}}</td>
                     <td class="text-right">
                         <form action="{{route('dashboard.user_management.user.destroy', $user)}}" method="post" id="{{'form-delete-' . $user->id}}">
                             @method('delete')
