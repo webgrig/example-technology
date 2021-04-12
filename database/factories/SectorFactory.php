@@ -23,7 +23,7 @@ class SectorFactory extends Factory
     public function definition(){
         $now = now();
         return [
-            'title' => $this->faker->unique(true)->areaCode,
+            'title' => $this->faker->unique(true)->firstNameFemale,
             'parent_id' => NULL,
             'created_at' => $now,
             'updated_at' => $now,
