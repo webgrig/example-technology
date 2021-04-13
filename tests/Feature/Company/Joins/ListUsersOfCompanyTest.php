@@ -36,5 +36,9 @@ class ListUsersOfCompanyTest extends TestCase
         foreach ($users as $key => $user){
             $this->assertEquals($user->name, $company->listUsersOfCompany()[$key]->name);
         }
+
+        $company2 = Company::factory()
+            ->create();
+        $this->assertEquals(json_encode([]), $company2->listUsersOfCompany());
     }
 }
