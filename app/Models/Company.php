@@ -13,7 +13,7 @@ class Company extends Model
 
     // Mass assigned
     protected $fillable = ['title', 'phone', 'email'];
-    protected $filterableFields = ['title', 'phone', 'email'];
+    public $filterableFields = ['title', 'phone', 'email'];
 
     // Polymorphic relation with sectors
     public function sectors(){

@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     @foreach($filterStrings as $key => $val)
-                        @if($key == 'title')
+                        @if($key == $company->filterableFields[0])
                             <h2><a href="{{route('company', $company)}}">{!!$val!!}</a></h2>
                         @else
                             <p>{!!$key.': ' . $val!!}</p>
@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     @foreach($filterStrings as $key => $val)
-                        @if($key == 'title')
+                        @if($key == $sector->filterableFields[0])
                             <h2><a href="{{route('sector', $sector)}}">{!!$val!!}</a></h2>
                         @else
                             <p>{!!$key.': ' . $val!!}</p>

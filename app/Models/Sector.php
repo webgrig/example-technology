@@ -15,7 +15,7 @@ class Sector extends Model
 
     // Mass assigned
     protected $fillable = ['title', 'parent_id'];
-    protected $filterableFields = ['title'];
+    public $filterableFields = ['title'];
 
     // Get children sector
     public function children(){
