@@ -22,7 +22,7 @@ class CompanyFactory extends Factory
     public function definition(){
         $now = now();
         return [
-            'title' => $this->faker->unique(true)->company,
+            'title' => 'Company "' . $this->faker->unique(true)->company . '"',
             'phone' => rand(1, 10000000),
             'email' => $this->faker->unique(true)->safeEmail,
             'email_verified_at' => $now,
