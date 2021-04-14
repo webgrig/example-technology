@@ -30,7 +30,7 @@
                 <th class="w15pr">Email</th>
                 <th class="w5pr">Role</th>
                 <th class="w50pr">Sectors</th>
-                <th class="w25pr text-right">Action</th>
+                <th class="w25pr text-right">Actions</th>
             </thead>
             <tbody>
             @forelse($users as $user)

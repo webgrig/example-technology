@@ -32,7 +32,7 @@
                 <th class="w15pr">Parent sector</th>
                 <th class="w30pr">Companies</th>
                 <th class="w25pr">Users</th>
-                <th class="w25pr text-right">Action</th>
+                <th class="w25pr text-right">Actions</th>
             </thead>
             <tbody>
                 @forelse($sectors as $sector)

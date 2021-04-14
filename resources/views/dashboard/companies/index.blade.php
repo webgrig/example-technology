@@ -18,7 +18,7 @@
                     <th class="w15pr">Email</th>
                     <th class="w30pr">Sectors</th>
                     <th class="w15pr">Users</th>
-                    <th class="w25pr text-right">Action</th>
+                    <th class="w25pr text-right">Actions</th>
                 </thead>
             <tbody>
                 @forelse($companies as $company)
