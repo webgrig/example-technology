@@ -3,51 +3,22 @@
 namespace App\Http\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
-abstract class QueryFilter
-{
+class QueryFilter{
     /**
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * @var Builder
+     * @var Builder $builder
      */
     protected $builder;
 
-    /**
-     * @param Request $request
-     */
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    /**
-     * @param Builder $builder
-     */
-    public function apply(Builder $builder)
-    {
+    public function apply(Builder $builder, array $filterableFields){
         $this->builder = $builder;
-
-        foreach ($this->fields() as $field => $value) {
-//            $method = camel_case($field);
-            $method = $field;
-            if (method_exists($this, $method)) {
-                call_user_func_array([$this, $method], (array)$value);
-            }
+        foreach ($filterableFields as $field) {
+            $words = array_filter(explode(' ', strtolower(request()->get('search-word'))));
+            $this->builder->orWhere(function (Builder $query) use ($words, $field) {
+                foreach ($words as $word) {
+                    $query->orWhere($field, 'like', "%$word%");
+                }
+            });
         }
-    }
-
-    /**
-     * @return array
-     */
-    protected function fields(): array
-    {
-        return array_filter(
-            array_map('trim', $this->request->all())
-        );
     }
 }

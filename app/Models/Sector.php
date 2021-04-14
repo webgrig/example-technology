@@ -2,17 +2,20 @@
 
 namespace App\Models;
 
+use App\Http\Filters\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class Sector extends Model
 {
-    use HasFactory;
+    use HasFactory, Filterable;
 
 
     // Mass assigned
     protected $fillable = ['title', 'parent_id'];
+    protected $filterableFields = ['title'];
 
     // Get children sector
     public function children(){

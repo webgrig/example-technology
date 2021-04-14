@@ -16,9 +16,9 @@ class RedirectIfSearch
      */
     public function handle(Request $request, Closure $next)
     {
-        $search = $request->get('search');
-        if($search){
-            return redirect("/filter?title=$search&phone=$search&email=$search");
+        $filter = $request->get('search');
+        if($filter){
+            return redirect("/filter?search-word=$filter");
         }
         return $next($request);
     }

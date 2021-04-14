@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Filters\Filterable;
+use Illuminate\Http\Request;
 
 class Company extends Model
 {
@@ -12,6 +13,7 @@ class Company extends Model
 
     // Mass assigned
     protected $fillable = ['title', 'phone', 'email'];
+    protected $filterableFields = ['title', 'phone', 'email'];
 
     // Polymorphic relation with sectors
     public function sectors(){
