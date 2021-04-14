@@ -31,8 +31,9 @@ trait Filterable
                 unset($filterStrings[$field]);
             }
         }
-        if (!isset($filterStrings['title'])){
-            $filterStrings = array_merge(['title' => $this->title], $filterStrings);
+        $firstFilterableField = $this->filterableFields[0];
+        if (!isset($filterStrings[$firstFilterableField])){
+            $filterStrings = array_merge([$firstFilterableField => $this->$firstFilterableField], $filterStrings);
         }
         return $filterStrings;
     }
