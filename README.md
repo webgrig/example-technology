@@ -15,15 +15,15 @@ Para crear un nuevo proyecto, clone el repositorio y ejecute el comando en la l√
 
 ```
 
-**git clone git@github.com:webgrig/example-technology.git new-project**
+git clone git@github.com:webgrig/example-technology.git new-project
 
-**cd new-project**
+cd new-project
 
-**composer install**
+composer install
 
-**npm install**
+npm install
 
-**npm run prod**
+npm run prod
 
 ```
 Luego debe copiar el contenido del archivo **.env.example** a un nuevo archivo **.env**
