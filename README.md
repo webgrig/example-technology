@@ -7,6 +7,8 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+Este es un proyecto que tiene como objetivo demostrar algunas de las tecnologías que utilizo en mi trabajo.
+
 ### Getting started
 
 Para crear un nuevo proyecto, clone el repositorio y ejecute el comando en la línea de comandos.
@@ -20,13 +22,9 @@ composer install
 
 npm install
 ```
-
-Después de eso, en mayo de SQL, debe crear una base de datos llamada "testo_de_jorge", la codificación predeterminada es "utf8mb4_unicode_ci"
-
-También es necesario crear un usuario con nombre "laravel" con todos los derechos para esta base.
-Debes darle a este usuario una contraseña "laravelpass"
-
 Luego debe copiar el contenido del archivo .env.example a un nuevo archivo .env
+
+Después de eso, La configuración de MySQL contiene un usuario root sin contraseña y una base de datos laravel. Puede anularlos en la sección correspondiente del archivo .env en la raíz del proyecto.
 
 Para hacer esto, ingrese el comando
 
@@ -43,6 +41,7 @@ php artisan serve
 ```
 
 en la barra de direcciones del navegador ingrese la dirección http://127.0.0.1:8000
+
 ```
 login: superadmin@example.com
 
