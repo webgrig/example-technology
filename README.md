@@ -14,17 +14,19 @@ Este es un proyecto que tiene como objetivo demostrar algunas de las tecnología
 Para crear un nuevo proyecto, clone el repositorio y ejecute el comando en la línea de comandos.
 
 ```
-git clone git@github.com:webgrig/test-trabajo.git new-project
 
-cd new-project
+**git clone git@github.com:webgrig/example-technology.git new-project**
 
-composer install
+**cd new-project**
 
-npm install
+**composer install**
+
+**npm install**
+
+**npm run prod**
+
 ```
-Luego debe copiar el contenido del archivo .env.example a un nuevo archivo .env
-
-Después de eso, La configuración de MySQL contiene un usuario root sin contraseña y una base de datos laravel. Puede anularlos en la sección correspondiente del archivo .env en la raíz del proyecto.
+Luego debe copiar el contenido del archivo **.env.example** a un nuevo archivo **.env**
 
 Para hacer esto, ingrese el comando
 
@@ -32,7 +34,12 @@ Para hacer esto, ingrese el comando
 cp .env.example .env
 
 php artisan migrate --seed
+
 ```
+
+Después de eso, necesita crear una base de datos de MySQL llamada "**laravel**", la codificación predeterminada es **"utf8mb4_unicode_ci"**.
+
+La configuración de MySQL contiene un usuario **root** sin contraseña y una base de datos **laravel**. Puede anularlos en la sección correspondiente del archivo **.env** en la raíz del proyecto.
 
 Después de eso, puede iniciar el servidor de desarrollo
 
@@ -40,7 +47,7 @@ Después de eso, puede iniciar el servidor de desarrollo
 php artisan serve
 ```
 
-en la barra de direcciones del navegador ingrese la dirección http://127.0.0.1:8000
+en la barra de direcciones del navegador ingrese la dirección **http://127.0.0.1:8000**
 
 ```
 login: superadmin@example.com
