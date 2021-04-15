@@ -31,15 +31,20 @@ Luego debe copiar el contenido del archivo **.env.example** a un nuevo archivo *
 Para hacer esto, ingrese el comando
 
 ```
-cp .env.example .env
 
-php artisan migrate --seed
+cp .env.example .env
 
 ```
 
 Después de eso, necesita crear una base de datos de MySQL llamada "**laravel**", la codificación predeterminada es **"utf8mb4_unicode_ci"**.
 
 La configuración de MySQL contiene un usuario **root** sin contraseña y una base de datos **laravel**. Puede anularlos en la sección correspondiente del archivo **.env** en la raíz del proyecto.
+
+```
+
+php artisan migrate --seed
+
+```
 
 Después de eso, puede iniciar el servidor de desarrollo
 
