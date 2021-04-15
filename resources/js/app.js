@@ -1,74 +1,10 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
 
 window.Vue = require('vue').default;
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+import CurrencyAPI from './components/CurrencyAPI'
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('currency-api', require('./components/CurencyAPI.vue').default);
-// Vue.component('currency-xml', require('./components/CurrencyXML').default);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-
-
-var xml = new parser.j2xParser( {
-    attributeNamePrefix: "_",
-    textNodeName: "text_",
-    ignoreAttributes: false,
-    allowBooleanAttributes: true,
-} )
-
-// const currencyVue = new Vue({
-//     el: '#currency',
-//
-//
-//     template: xml.parse({
-//         div: {
-//             ol: {
-//                 li: { "_v-for": "(it,idx) in items",
-//                     text_: "{{ it }}",
-//                     button: { "_v-on:click": "del_item( idx )",
-//                         text_: " x ",
-//                     },
-//                 },
-//             },
-//             input: { "_v-model": "item", },
-//             button: { "_v-on:click": "add_item()",
-//                 text_: "Add Item",
-//             },
-//         },
-//     }),
-//
-//     data: {
-//         items: [ 'aaa', 'bbb', 'ccc', ],
-//         item: 'Hello Vue.js!',
-//     },
-//
-//     methods: {
-//         add_item: function () { this.items.push( this.item ) },
-//         del_item: function ( _idx ) { this.items.splice( _idx, 1 ) },
-//     },
-// });
 const app = new Vue({
-    el: '#test',
+    el: '#currency',
+    render: h => h(CurrencyAPI)
 });

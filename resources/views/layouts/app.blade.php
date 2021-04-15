@@ -37,9 +37,6 @@
             </div>
             @yield('content')
         </main>
-        <div id="currency">
-            <currency-xml></currency-xml>
-        </div>
     </div>
 
     <script src="{{ asset('js/filter_form/classie.js')}}"></script>

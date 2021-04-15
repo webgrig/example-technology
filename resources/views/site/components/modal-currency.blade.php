@@ -5,7 +5,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">Currency Converter</h5>
                 <button type="button" class="close pt-1 pr-2" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <div id="test">
+            <div id="currency">
                 <currency-api></currency-api>
             </div>
         </div>
