@@ -52,7 +52,7 @@ Después de eso, puede iniciar el servidor de desarrollo
 php artisan serve
 ```
 
-en la barra de direcciones del navegador ingrese la dirección **http://127.0.0.1:8000**
+En la barra de direcciones del navegador ingrese la dirección **http://127.0.0.1:8000**
 
 ```
 login: superadmin@example.com
