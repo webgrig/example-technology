@@ -23,52 +23,54 @@ class CurrencyController extends Controller{
         $reader = new \XMLReader();
         $file = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml';
         $newFile = storage_path()  . '\\' . basename($file);
-        if (!copy($file, $newFile)){
-            die("Failed to copy remote file " . basename($file));
-        }
-        elseif (!$reader->open($newFile)) {
-            die("Failed to open " . basename($file));
-        }
-        while ($reader->read() && $reader->localName !== 'Cube') {
-            continue;
-        }
-        while ($reader->read()) {
-            $amountFirstDateDB = Currency::where('date', '=', $firstDateAPI)->count();
-            $SimpleXML = new \SimpleXMLElement($reader->readOuterXml());
-            $amountChildrenXML = $SimpleXML->count();
-            $time = $reader->getAttribute('time');
-            $lastAPIDate = !isset($lastAPIDate) ? $time : $lastAPIDate;
-            $amountCurrentDateDB = Currency::where('date', '=', $time)->count();
-            if (($amountCurrentDateDB == $amountChildrenXML) && ($amountFirstDateDB == $amountFirstDateAPI)){
-                break;
+        if (!file_exists($newFile)) {
+            if (!copy($file, $newFile)){
+                die("Failed to copy remote file " . basename($file));
             }
-            if ($time && ($amountCurrentDateDB < $amountChildrenXML)) {
-                foreach ($SimpleXML->Cube as $attributes) {
-                    $currencyName = strval($attributes->attributes()['currency']);
-                    $currencyRate = strval($attributes->attributes()['rate']);
-                    $data = [
-                        'date' => $time,
-                        'currency' => $currencyName,
-                        'rate' => $currencyRate
-                    ];
-                    $existItem = Currency::where('date', '=', $time)->where('currency', '=', $currencyName)->count();
-                    if (!$existItem) {
-                        $currency = Currency::factory()
-                            ->create($data);
-                        Cache::rememberForever('currency_' . $time . '_' . $currency->id, function () use ($data) {
-                            return json_encode([
-                                'currency' => $data['currency'],
-                                'rate' => $data['rate']
-                            ]);
-                        });
+            elseif (!$reader->open($newFile)) {
+                die("Failed to open " . basename($file));
+            }
+            while ($reader->read() && $reader->localName !== 'Cube') {
+                continue;
+            }
+            while ($reader->read()) {
+                $amountFirstDateDB = Currency::where('date', '=', $firstDateAPI)->count();
+                $SimpleXML = new \SimpleXMLElement($reader->readOuterXml());
+                $amountChildrenXML = $SimpleXML->count();
+                $time = $reader->getAttribute('time');
+                $lastAPIDate = !isset($lastAPIDate) ? $time : $lastAPIDate;
+                $amountCurrentDateDB = Currency::where('date', '=', $time)->count();
+                if (($amountCurrentDateDB == $amountChildrenXML) && ($amountFirstDateDB == $amountFirstDateAPI)){
+                    break;
+                }
+                if ($time && ($amountCurrentDateDB < $amountChildrenXML)) {
+                    foreach ($SimpleXML->Cube as $attributes) {
+                        $currencyName = strval($attributes->attributes()['currency']);
+                        $currencyRate = strval($attributes->attributes()['rate']);
+                        $data = [
+                            'date' => $time,
+                            'currency' => $currencyName,
+                            'rate' => $currencyRate
+                        ];
+                        $existItem = Currency::where('date', '=', $time)->where('currency', '=', $currencyName)->count();
+                        if (!$existItem) {
+                            $currency = Currency::factory()
+                                ->create($data);
+                            Cache::rememberForever('currency_' . $time . '_' . $currency->id, function () use ($data) {
+                                return json_encode([
+                                    'currency' => $data['currency'],
+                                    'rate' => $data['rate']
+                                ]);
+                            });
+                        }
                     }
                 }
+                else{$reader->next();}
             }
-            else{$reader->next();}
-        }
-        $reader->close();
-        if (file_exists($newFile)) {
-            unlink($newFile);
+            $reader->close();
+            if (file_exists($newFile)) {
+                unlink($newFile);
+            }
         }
         return 'OK';
     }
