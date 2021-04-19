@@ -70,7 +70,7 @@ class CurrencyController extends Controller{
         if (file_exists($newFile)) {
             unlink($newFile);
         }
-        echo 'OK';
+        return 'OK';
     }
 
     /**
