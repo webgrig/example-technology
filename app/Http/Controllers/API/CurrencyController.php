@@ -67,7 +67,9 @@ class CurrencyController extends Controller{
             else{$reader->next();}
         }
         $reader->close();
-        unlink($newFile);
+        if (file_exists($newFile)) {
+            unlink($newFile);
+        }
         echo 'OK';
     }
 
