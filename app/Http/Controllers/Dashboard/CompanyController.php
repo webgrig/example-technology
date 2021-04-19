@@ -10,11 +10,6 @@ use Illuminate\Validation\Rule;
 
 class CompanyController extends Controller
 {
-
-//    public function __construct()
-//    {
-//
-//    }
     /**
      * Display a listing of the resource.
      *
