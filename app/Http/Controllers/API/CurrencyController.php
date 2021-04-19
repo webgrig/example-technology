@@ -72,7 +72,7 @@ class CurrencyController extends Controller{
                 unlink($newFile);
             }
         }
-        return 'OK';
+        return true;
     }
 
     /**
