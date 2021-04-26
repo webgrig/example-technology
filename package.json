@@ -36,6 +36,10 @@
     "dependencies": {
         "axios": "^0.21.1",
         "font-awesome": "^4.7.0",
-        "vue": "^2.6.12"
+        "ioredis": "^4.26.0",
+        "socket.io": "^4.0.1",
+        "socket.io-client": "^4.0.1",
+        "vue": "^2.6.12",
+        "vuejs-datepicker": "^1.6.2"
     }
 }

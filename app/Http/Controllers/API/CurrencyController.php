@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\AddCurrency;
+use App\Events\NewConnection;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class CurrencyController extends Controller{
     /**
@@ -15,62 +16,49 @@ class CurrencyController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        set_time_limit(10000000000);
-        ini_set('max_execution_time', 10000000000);
-        ini_set('memory_limit', '5095M');
-        $firstDateAPI = '1999-01-04';
-        $amountFirstDateAPI = 27;
-        $reader = new \XMLReader();
+        event(new NewConnection());
         $file = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml';
-        $newFile = storage_path()  . '\\' . basename($file);
+        $curDate = date("Y-m-d");
+        $newFileName = 'currencies_' . $curDate . '.xml';
+        $newFile = storage_path() . '\\' . $newFileName;
         if (!file_exists($newFile)) {
-            if (!copy($file, $newFile)){
-                die("Failed to copy remote file " . basename($file));
-            }
-            elseif (!$reader->open($newFile)) {
-                die("Failed to open " . basename($file));
-            }
-            while ($reader->read() && $reader->localName !== 'Cube') {
-                continue;
-            }
-            while ($reader->read()) {
-                $amountFirstDateDB = Currency::where('date', '=', $firstDateAPI)->count();
-                $SimpleXML = new \SimpleXMLElement($reader->readOuterXml());
-                $amountChildrenXML = $SimpleXML->count();
-                $time = $reader->getAttribute('time');
-                $lastAPIDate = !isset($lastAPIDate) ? $time : $lastAPIDate;
-                $amountCurrentDateDB = Currency::where('date', '=', $time)->count();
-                if (($amountCurrentDateDB == $amountChildrenXML) && ($amountFirstDateDB == $amountFirstDateAPI)){
-                    break;
-                }
-                if ($time && ($amountCurrentDateDB < $amountChildrenXML)) {
-                    foreach ($SimpleXML->Cube as $attributes) {
-                        $currencyName = strval($attributes->attributes()['currency']);
-                        $currencyRate = strval($attributes->attributes()['rate']);
-                        $data = [
-                            'date' => $time,
-                            'currency' => $currencyName,
-                            'rate' => $currencyRate
-                        ];
-                        $existItem = Currency::where('date', '=', $time)->where('currency', '=', $currencyName)->count();
-                        if (!$existItem) {
-                            $currency = Currency::factory()
-                                ->create($data);
-                            Cache::rememberForever('currency_' . $time . '_' . $currency->id, function () use ($data) {
-                                return json_encode([
-                                    'currency' => $data['currency'],
-                                    'rate' => $data['rate']
-                                ]);
-                            });
-                        }
+            array_map('unlink', array_filter((array) glob(storage_path() . '\*.xml')));
+            if (copy($file, $newFile)){
+                $reader = new \XMLReader();
+                Redis::select(0);
+                if ($reader->open($newFile)) {
+                    while ($reader->read() && $reader->localName !== 'Cube') {
+                        continue;
                     }
+                    while ($reader->read()) {
+                        $SimpleXML = new \SimpleXMLElement($reader->readOuterXml());
+                        $amountChildrenXML = $SimpleXML->count();
+                        $date = $reader->getAttribute('time');
+                        if (!$amountChildrenXML || !$date){
+                            continue;
+                        }
+                        $lastAPIDate = !isset($lastAPIDate) ? $date : $lastAPIDate;
+                        if ($date) {
+                            foreach ($SimpleXML->Cube as $attributes) {
+                                $currencyName = strval($attributes->attributes()['currency']);
+                                $currencyRate = strval($attributes->attributes()['rate']);
+                                $hKey = 'currency_' . $date;
+                                Redis::hSet($hKey, $currencyName, $currencyRate);
+                            }
+                            AddCurrency::dispatch($date);
+                        }
+                        else{$reader->next();}
+                    }
+                    $reader->close();
                 }
-                else{$reader->next();}
+                else{
+                    return "Failed to open " . basename($file);
+                }
             }
-            $reader->close();
-            if (file_exists($newFile)) {
-                unlink($newFile);
+            else{
+                return "Failed to copy remote file " . basename($file);
             }
+
         }
         return true;
     }
