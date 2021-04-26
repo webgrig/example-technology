@@ -32,11 +32,13 @@ class CurrencyController extends Controller{
                         continue;
                     }
                     $allDatesInFile = substr_count(file_get_contents($newFile), 'Cube time="');
-                    exec('redis-cli KEYS "currency_*" | wc -l', $output, $retval);
-                    $execFirstTime = ($allDatesInFile - $output[0]) > 10 ? true : false;
+                    $execCommand = 'redis-cli KEYS "currency_*" | wc -l';
+                    exec($execCommand, $output, $retval);
+                    dump($allDatesInFile, (int)$output[0]);
+                    $execFirstTime = ($allDatesInFile - (int)$output[0]) > 10 ? true : false;
                     while ($reader->read()) {
                         if (!$execFirstTime){
-                            exec('redis-cli KEYS "currency_*" | wc -l', $output, $retval);
+                            exec($execCommand, $output, $retval);
                             if ($allDatesInFile == $output[0]){
                                 break;
                             }
