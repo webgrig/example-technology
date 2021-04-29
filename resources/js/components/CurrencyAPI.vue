@@ -14,25 +14,31 @@
                 <div class="col-sm-6">
                     <label for="from">Give</label>
                     <select v-model="selectedFrom" name="" id="from" class="form-control"
-                            @change="onChangeCurrency($event)">
+                            @change="onChangeCurrency($event)" :class="{'invalid': $v.selectedFrom.$dirty && !$v.selectedFrom.required}">
                         <option v-for="(rate, currency)  in this.currenciesOfDate" :value="rate">
                             {{ currency }}
                         </option>
                     </select>
+                    <small class="helper-text invalid" v-if="$v.selectedFrom.$dirty && !$v.selectedFrom.required">
+                        Select currency
+                    </small>
                 </div>
                 <div class="col-sm-6">
                     <label for="to">Get</label>
                     <select v-model="selectedTo" name="" id="to" class="form-control"
-                            @change="onChangeCurrency($event)">
+                            @change="onChangeCurrency($event)" :class="{'invalid': $v.selectedTo.$dirty && !$v.selectedTo.required}">
                         <option v-for="(rate, currency)  in this.currenciesOfDate" :value="rate">
                             {{ currency }}
                         </option>
                     </select>
+                    <small class="helper-text invalid" v-if="$v.selectedTo.$dirty && !$v.selectedTo.required">
+                        Select currency
+                    </small>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 offset-md-3">
-                    <input v-model.trim="amount" type="text" class="form-control my-5" placeholder="Enter amount" @input="convertCurrency($event)" :class="{'invalid': ($v.amount.$dirty && !$v.amount.decimal) || ($v.amount.$dirty && !$v.amount.maxLength)}">
+                    <input v-model.trim="amount" type="text" class="form-control my-5" placeholder="Enter amount" @input="convertCurrency()" :class="{'invalid': ($v.amount.$dirty && !$v.amount.decimal) || ($v.amount.$dirty && !$v.amount.maxLength)}">
                     <small class="helper-text invalid" v-if="$v.amount.$dirty && !$v.amount.decimal">
                         Invalid data
                     </small>
@@ -54,7 +60,7 @@
 import Vue from 'vue'
 import Datepicker from '@hokify/vuejs-datepicker'
 import Vuelidate from 'vuelidate'
-import {decimal, maxLength } from 'vuelidate/lib/validators'
+import {decimal, maxLength, required } from 'vuelidate/lib/validators'
 Vue.use(Vuelidate);
 export default {
     components: {
@@ -75,7 +81,9 @@ export default {
         }
     },
     validations: {
-        amount: {decimal, maxLength: maxLength(10)}
+        amount: {decimal, maxLength: maxLength(10)},
+        selectedFrom: {required},
+        selectedTo: {required}
     },
     mounted () {
         const socket = io('http://127.0.0.1:3000', {
@@ -110,23 +118,39 @@ export default {
         getCurrencies: function () {
             axios.get('/api/currency')
         },
-        convertCurrency: function (event) {
+        validateCurrency: function (event){
+            if(this.$v.$invalid){
+                this.$v.$touch()
+                return false
+            }
+            return true
+        },
+        validateAmount: function (){
             if(this.$v.$invalid){
                 this.$v.$touch()
                 this.result = ''
-                return
+                return false
             }
             if (!this.amount){
                 this.result = ''
+                return false
+            }
+            return true
+        },
+        convertCurrency: function () {
+            if (!this.validateAmount()){
                 return
             }
             let result = (this.selectedTo / this.selectedFrom) * this.amount
-            this.result = this.amount + ' ' + this.selectedTitleFrom + ' => ' + result.toFixed(2) + ' ' + this.selectedTitleTo
+            this.result = parseInt(this.amount).toFixed(2) + ' ' + this.selectedTitleFrom + ' => ' + parseInt(result).toFixed(2) + ' ' + this.selectedTitleTo
         },
         capitalize: function (str) {
             return str.charAt(0).toUpperCase() + str.slice(1)
         },
         onChangeCurrency: function (event) {
+            if (!this.validateCurrency(event)){
+                return
+            }
             let selectedTargetTitle = 'selectedTitle' + this.capitalize(event.target.id)
             this[selectedTargetTitle] = event.target.options[event.target.options.selectedIndex].innerText.trim()
             this.convertCurrency()
