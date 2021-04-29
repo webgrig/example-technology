@@ -3,110 +3,211 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-md-3 offset-md-4">
-                    <datepicker :disabledDates="disabledDates"></datepicker>
+                    <datepicker placeholder="Select date" @opened="datepickerOpenedFunction"
+                                @selected="datepickerSelectedFunction" :disabledDates="state.disabledDates"
+                                :value="state.date" v-model="state.date" name="uniquename"
+                                :monday-first="true"></datepicker>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-6">
-                    <label for="current"></label>
-                    <select v-model="from" name="" id="current" class="form-control">
-                        <option value="currency.id" v-for="currency in formatCurrencies">
-<!--                            {{currency.currencyName}}-->
+                    <label for="from">Give</label>
+                    <select v-model="selectedFrom" name="" id="from" class="form-control"
+                            @change="onChangeCurrency($event)">
+                        <option v-for="(rate, currency)  in this.currenciesOfDate" :value="rate">
+                            {{ currency }}
                         </option>
                     </select>
                 </div>
                 <div class="col-sm-6">
-                    <label for="final"></label>
-                    <select model="to" name="" id="final" class="form-control">
-                        <option value="currency.id" for="currency in formatCurrencies">
-<!--                            {{currency.currencyName}}-->
+                    <label for="to">Get</label>
+                    <select v-model="selectedTo" name="" id="to" class="form-control"
+                            @change="onChangeCurrency($event)">
+                        <option v-for="(rate, currency)  in this.currenciesOfDate" :value="rate">
+                            {{ currency }}
                         </option>
                     </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 offset-md-3">
-                    <input v-model="amount" type="text" class="form-control my-5" placeholder="Enter amount">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <button click="convertCurrency()" class="btn btn-primary">Convert</button>
+                    <input v-model.trim="amount" type="text" class="form-control my-5" placeholder="Enter amount" @input="convertCurrency($event)" :class="{'invalid': ($v.amount.$dirty && !$v.amount.decimal) || ($v.amount.$dirty && !$v.amount.maxLength)}">
+                    <small class="helper-text invalid" v-if="$v.amount.$dirty && !$v.amount.decimal">
+                        Invalid data
+                    </small>
+                    <small  class="helper-text invalid" v-else-if="$v.amount.$dirty && !$v.amount.maxLength">
+                        Maximum length 10 characters
+                    </small>
                 </div>
             </div>
             <div class="row mt-5">
                 <div class="col-sm-12 text-center">
-                    <h1>48.23</h1>
+                    <h3>{{ result }}</h3>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
 
 <script>
-import Datepicker from 'vuejs-datepicker';
+import Vue from 'vue'
+import Datepicker from '@hokify/vuejs-datepicker'
+import Vuelidate from 'vuelidate'
+import {decimal, maxLength } from 'vuelidate/lib/validators'
+Vue.use(Vuelidate);
 export default {
+    components: {
+        Datepicker,
+        Vuelidate,
+    },
     data: function () {
         return {
             currencies: [],
-            amount: null,
-            from: 'USD',
-            to: 'PHP',
+            currenciesOfDate: [],
+            selectedFrom: null,
+            selectedTo: null,
+            selectedTitleFrom: 'EUR',
+            selectedTitleTo: 'USD',
             result: null,
-            disabledDates: {
-                customPredictor: function(date){
-                    let day = date.getDate();
-                    day = day <= 9 ? '0' + day : day;
-                    let month = date.getMonth();
-                    month = month <= 9 ? '0' + month : month;
-                    let curDate = date.getFullYear() + '-' + month + '-' + day;
-                    return curDate in this.currencies ? false : true;
-                }.bind(this)
-            }
+            state: {},
+            amount: '',
         }
     },
-    components: {
-        Datepicker
+    validations: {
+        amount: {decimal, maxLength: maxLength(10)}
     },
-    mounted() {
-        const socket = io("http://127.0.0.1:3000", {
+    mounted () {
+        const socket = io('http://127.0.0.1:3000', {
             withCredentials: false
-        });
+        })
 
-        socket.on("connection", function (data) {
-            this.currencies[data[0]] = JSON.parse(data[1]);
+        this.getCurrencies()
 
-        }.bind(this));
+        let connectionPromise = new Promise((resolve, reject) => {
+            socket.on('connection', function (data) {
+                resolve(this.currencies[data[0]] = data[1])
+            }.bind(this))
+        })
 
+        connectionPromise.then((res) => {
+            setTimeout(() => {
+                this.initDatepicker()
+            }, 3000)
+        })
 
-        socket.on("currency", function (data){
-            this.currencies[data[0]] = JSON.parse(data[1]);
+        socket.on('currency', function (data) {
+            this.currencies[data[0]] = data[1]
 
-        }.bind(this));
-        this.getCurrencies();
+        }.bind(this))
     },
     computed: {
-        formatCurrencies(){
-            // return Object.values(this.currencies)
+        formatCurrencies () {
+            return this.currenciesOfDate
         }
     },
     methods: {
         getCurrencies: function () {
-            axios.get('/api/currency');
+            axios.get('/api/currency')
         },
-        convertCurrency(){
-            const search = `${this.from}_${this.to}`;
-            const string = `https://free.currconv.com/api/v7/convert?q=${search}&compact=y&apiKey=44c8ee9eb2df03610d1e&callback=sampleCallback`;
-            axios.get(string)
-            .then((response) => {
-                this.result = response.data.results[search].val;
+        convertCurrency: function (event) {
+            if(this.$v.$invalid){
+                this.$v.$touch()
+                this.result = ''
+                return
+            }
+            if (!this.amount){
+                this.result = ''
+                return
+            }
+            let result = (this.selectedTo / this.selectedFrom) * this.amount
+            this.result = this.amount + ' ' + this.selectedTitleFrom + ' => ' + result.toFixed(2) + ' ' + this.selectedTitleTo
+        },
+        capitalize: function (str) {
+            return str.charAt(0).toUpperCase() + str.slice(1)
+        },
+        onChangeCurrency: function (event) {
+            let selectedTargetTitle = 'selectedTitle' + this.capitalize(event.target.id)
+            this[selectedTargetTitle] = event.target.options[event.target.options.selectedIndex].innerText.trim()
+            this.convertCurrency()
+        },
 
-                console.log(string)
-            });
+        // Datepicker start
 
+        initDatepicker: function () {
+            this.state.disabledDates = {}
+            this.state.disabledDates.dates = []
+            this.createDatepickerDates()
+        },
+        createDatepickerDates: function () {
+            this.state.date = new Date()
+            this.state.disabledDates.customPredictor = this.disabledDatesFunc
+            this.createListSelectedDate()
+            this.createDisablesDates()
+            this.createFirstDate()
+        },
+        datepickerOpenedFunction: function () {
+            // this.state.date = new Date()
+        },
+        datepickerSelectedFunction: function () {
+            this.createListSelectedDate()
+            this.convertCurrency()
+        },
+        createFirstDate: function () {
+            const dayMilliseconds = 24 * 60 * 60 * 1000
+            let currentDate = this.state.date
+            let curDateString
+            for (var key in this.currencies) {
+                curDateString = this.createDadeString(currentDate, '-')
+                if (this.currencies[curDateString]) {
+                    this.state.date = new Date(currentDate)
+                    break
+                }
+                currentDate.setTime(currentDate.getTime() - dayMilliseconds)
+            }
+        },
+        createListSelectedDate: function () {
+            setTimeout(() => {
+                let selectedDate = this.createDadeString(this.state.date, '-')
+                this.currenciesOfDate = _.merge({ 'EUR': '1' }, JSON.parse(this.currencies[selectedDate]))
+                this.selectedFrom = this.currenciesOfDate[this.selectedTitleFrom]
+                this.selectedTo = this.currenciesOfDate[this.selectedTitleTo]
+            })
+        },
+        disabledDatesFunc: function (date) {
+            let currentDate = new Date()
+            let firstDate = new Date(1999, 0, 4)
+            if (date > currentDate || date < firstDate) {
+                return true
+            }
+        },
+        createDisablesDates: function () {
+            const dayMilliseconds = 24 * 60 * 60 * 1000
+            let currentDate = new Date()
+            let curDateString
+            for (var key in this.currencies) {
+                curDateString = this.createDadeString(currentDate, '-')
+                if (this.currencies[curDateString] == undefined) {
+                    this.state.disabledDates.dates.push(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()))
+                }
+                currentDate.setTime(currentDate.getTime() - dayMilliseconds)
+            }
+        },
+        createDadeString: function (date, delimiter) {
+            let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date)
+            let mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(date)
+            let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date)
+            return `${ye}${delimiter}${mo}${delimiter}${da}`
         }
+
+        // Datepicker finish
     }
 }
 </script>
+
+<style lang="scss">
+@import "~@hokify/vuejs-datepicker/dist/vuejs-datepicker.css";
+.invalid{
+    color: red;
+}
+</style>

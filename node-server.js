@@ -18,25 +18,18 @@ clientConnectEvent.psubscribe("connection", (err, count) => {});
 
 async function hgetallCallback(result) {
     for (var i = 0; i < result.length; i++) {
-        await new Promise((resolve, reject) => {
-            redisClient.hgetall(result[i], (err, object) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    let curData = [];
-                    let date = result[i].split('_')[1];
-                    curData[date] = JSON.stringify(object);
-                    curCurrencies[date] = curData[date];
-                    resolve(object);
-                }
-            });
+        await redisClient.hgetall(result[i], (err, object) => {
+            let curData = [];
+            let date = result[i].split('_')[1];
+            curData[date] = JSON.stringify(object);
+            curCurrencies[date] = curData[date];
         });
     }
     return curCurrencies;
 }
 function getRedisCurrencies(){
     redisClient.keys('currency_*').then(function (result) {
-        hgetallCallback(result).then((res) => {
+        hgetallCallback(result).then(function (res){
             clientConnectEvent.on("pmessage", function (pattern, channel, message) {
                 for (date in res){
                     io.emit(channel, [date, res[date]]);

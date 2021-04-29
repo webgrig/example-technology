@@ -32,16 +32,12 @@ class CurrencyController extends Controller{
                         continue;
                     }
                     $allDatesInFile = substr_count(file_get_contents($newFile), 'Cube time="');
-                    $execCommand = 'redis-cli KEYS "currency_*" | wc -l';
-                    exec($execCommand, $output, $retval);
-                    dump($allDatesInFile, (int)$output[0]);
-                    $execFirstTime = ($allDatesInFile - (int)$output[0]) > 10 ? true : false;
+                    if (!Redis::get('currenciesDatesCounter')){
+                        Redis::set('currenciesDatesCounter', 0);
+                    }
                     while ($reader->read()) {
-                        if (!$execFirstTime){
-                            exec($execCommand, $output, $retval);
-                            if ($allDatesInFile == $output[0]){
-                                break;
-                            }
+                        if ((int)Redis::get('currenciesDatesCounter') == $allDatesInFile){
+                            break;
                         }
                         $SimpleXML = new \SimpleXMLElement($reader->readOuterXml());
                         $amountChildrenXML = $SimpleXML->count();
@@ -56,8 +52,10 @@ class CurrencyController extends Controller{
                                 $currencyRate = strval($attributes->attributes()['rate']);
                                 $hKey = 'currency_' . $date;
                                 Redis::hSet($hKey, $currencyName, $currencyRate);
+
                             }
                             AddCurrency::dispatch($date);
+                            Redis::incr('currenciesDatesCounter');
                         }
                         else{$reader->next();}
                     }

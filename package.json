@@ -34,12 +34,13 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@hokify/vuejs-datepicker": "^2.0.2",
         "axios": "^0.21.1",
         "font-awesome": "^4.7.0",
         "ioredis": "^4.26.0",
         "socket.io": "^4.0.1",
         "socket.io-client": "^4.0.1",
         "vue": "^2.6.12",
-        "vuejs-datepicker": "^1.6.2"
+        "vuelidate": "^0.7.6"
     }
 }
