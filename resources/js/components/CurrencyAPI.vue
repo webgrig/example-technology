@@ -13,7 +13,7 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <label for="from">Give</label>
+                        <label for="from" class="mt-3">Give</label>
                         <select v-model="selectedFrom" name="" id="from" class="form-control"
                                 @change="onChangeCurrency($event)" :class="{'invalid': $v.selectedFrom.$dirty && !$v.selectedFrom.required}">
                             <option v-for="(rate, currency)  in this.currenciesOfDate" :value="rate">
@@ -25,7 +25,7 @@
                         </small>
                     </div>
                     <div class="col-sm-6">
-                        <label for="to">Get</label>
+                        <label for="to" class="mt-3">Get</label>
                         <select v-model="selectedTo" name="" id="to" class="form-control"
                                 @change="onChangeCurrency($event)" :class="{'invalid': $v.selectedTo.$dirty && !$v.selectedTo.required}">
                             <option v-for="(rate, currency)  in this.currenciesOfDate" :value="rate">
