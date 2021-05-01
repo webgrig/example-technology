@@ -1,56 +1,61 @@
 <template>
     <div>
         <div class="modal-body">
-            <div class="row">
-                <div class="col-md-3 offset-md-4">
-                    <datepicker placeholder="Select date" @opened="datepickerOpenedFunction"
-                                @selected="datepickerSelectedFunction" :disabledDates="state.disabledDates"
-                                :value="state.date" v-model="state.date" name="uniquename"
-                                :monday-first="true"></datepicker>
+            <div class="container" v-if="!is_refresh">
+                <div class="row">
+                    <div class="col-md-3 offset-md-4">
+                        <datepicker placeholder="Select date" @opened="datepickerOpenedFunction"
+                                    @selected="datepickerSelectedFunction" :disabledDates="state.disabledDates"
+                                    :value="state.date" v-model="state.date" name="uniquename"
+                                    :monday-first="true"></datepicker>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-sm-6">
-                    <label for="from">Give</label>
-                    <select v-model="selectedFrom" name="" id="from" class="form-control"
-                            @change="onChangeCurrency($event)" :class="{'invalid': $v.selectedFrom.$dirty && !$v.selectedFrom.required}">
-                        <option v-for="(rate, currency)  in this.currenciesOfDate" :value="rate">
-                            {{ currency }}
-                        </option>
-                    </select>
-                    <small class="helper-text invalid" v-if="$v.selectedFrom.$dirty && !$v.selectedFrom.required">
-                        Select currency
-                    </small>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="from">Give</label>
+                        <select v-model="selectedFrom" name="" id="from" class="form-control"
+                                @change="onChangeCurrency($event)" :class="{'invalid': $v.selectedFrom.$dirty && !$v.selectedFrom.required}">
+                            <option v-for="(rate, currency)  in this.currenciesOfDate" :value="rate">
+                                {{ currency }}
+                            </option>
+                        </select>
+                        <small class="helper-text invalid" v-if="$v.selectedFrom.$dirty && !$v.selectedFrom.required">
+                            Select currency
+                        </small>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="to">Get</label>
+                        <select v-model="selectedTo" name="" id="to" class="form-control"
+                                @change="onChangeCurrency($event)" :class="{'invalid': $v.selectedTo.$dirty && !$v.selectedTo.required}">
+                            <option v-for="(rate, currency)  in this.currenciesOfDate" :value="rate">
+                                {{ currency }}
+                            </option>
+                        </select>
+                        <small class="helper-text invalid" v-if="$v.selectedTo.$dirty && !$v.selectedTo.required">
+                            Select currency
+                        </small>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <label for="to">Get</label>
-                    <select v-model="selectedTo" name="" id="to" class="form-control"
-                            @change="onChangeCurrency($event)" :class="{'invalid': $v.selectedTo.$dirty && !$v.selectedTo.required}">
-                        <option v-for="(rate, currency)  in this.currenciesOfDate" :value="rate">
-                            {{ currency }}
-                        </option>
-                    </select>
-                    <small class="helper-text invalid" v-if="$v.selectedTo.$dirty && !$v.selectedTo.required">
-                        Select currency
-                    </small>
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <input v-model.trim="amount" type="text" class="form-control my-5" placeholder="Enter amount" @input="convertCurrency()" :class="{'invalid': ($v.amount.$dirty && !$v.amount.decimal) || ($v.amount.$dirty && !$v.amount.maxLength)}">
+                        <small class="helper-text invalid" v-if="$v.amount.$dirty && !$v.amount.decimal">
+                            Invalid data
+                        </small>
+                        <small  class="helper-text invalid" v-else-if="$v.amount.$dirty && !$v.amount.maxLength">
+                            Maximum length 10 characters
+                        </small>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-sm-12 text-center">
+                        <h3>{{ result }}</h3>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <input v-model.trim="amount" type="text" class="form-control my-5" placeholder="Enter amount" @input="convertCurrency()" :class="{'invalid': ($v.amount.$dirty && !$v.amount.decimal) || ($v.amount.$dirty && !$v.amount.maxLength)}">
-                    <small class="helper-text invalid" v-if="$v.amount.$dirty && !$v.amount.decimal">
-                        Invalid data
-                    </small>
-                    <small  class="helper-text invalid" v-else-if="$v.amount.$dirty && !$v.amount.maxLength">
-                        Maximum length 10 characters
-                    </small>
-                </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col-sm-12 text-center">
-                    <h3>{{ result }}</h3>
-                </div>
+            <div class="container text-center" v-if="is_refresh">
+                <span class="badge badge-primary md-1">Refreshing...</span>
             </div>
         </div>
     </div>
@@ -69,6 +74,7 @@ export default {
     },
     data: function () {
         return {
+            is_refresh: false,
             currencies: [],
             currenciesOfDate: [],
             selectedFrom: null,
@@ -116,6 +122,7 @@ export default {
     },
     methods: {
         getCurrencies: function () {
+            this.is_refresh = true;
             axios.get('/api/currency')
         },
         validateCurrency: function (event){
@@ -162,6 +169,7 @@ export default {
             this.state.disabledDates = {}
             this.state.disabledDates.dates = []
             this.createDatepickerDates()
+            this.is_refresh = false;
         },
         createDatepickerDates: function () {
             this.state.date = new Date()
