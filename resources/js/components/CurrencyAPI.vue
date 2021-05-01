@@ -39,7 +39,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 offset-md-3">
-                        <input v-model.trim="amount" type="text" class="form-control my-5" placeholder="Enter amount" @input="convertCurrency()" :class="{'invalid': ($v.amount.$dirty && !$v.amount.decimal) || ($v.amount.$dirty && !$v.amount.maxLength)}">
+                        <input v-model.trim="amount" type="text" class="form-control mt-5" placeholder="Enter amount" @input="convertCurrency()" :class="{'invalid': ($v.amount.$dirty && !$v.amount.decimal) || ($v.amount.$dirty && !$v.amount.maxLength)}">
                         <small class="helper-text invalid" v-if="$v.amount.$dirty && !$v.amount.decimal">
                             Invalid data
                         </small>
