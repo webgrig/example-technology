@@ -149,7 +149,7 @@ export default {
                 return
             }
             let result = (this.selectedTo / this.selectedFrom) * this.amount
-            this.result = parseInt(this.amount).toFixed(2) + ' ' + this.selectedTitleFrom + ' => ' + parseInt(result).toFixed(2) + ' ' + this.selectedTitleTo
+            this.result = parseFloat(this.amount).toFixed(2) + ' ' + this.selectedTitleFrom + ' => ' + parseFloat(result).toFixed(2) + ' ' + this.selectedTitleTo
         },
         capitalize: function (str) {
             return str.charAt(0).toUpperCase() + str.slice(1)
