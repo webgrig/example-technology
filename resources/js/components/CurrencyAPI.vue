@@ -55,7 +55,9 @@
                 </div>
             </div>
             <div class="container text-center" v-if="is_refresh">
-                <span class="badge badge-primary md-1">Refreshing...</span>
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
         </div>
     </div>
