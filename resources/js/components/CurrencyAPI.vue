@@ -4,10 +4,11 @@
             <div class="container" v-if="!is_refresh">
                 <div class="row">
                     <div class="col-md-3 offset-md-4">
+                        <label for="date">Date</label>
                         <datepicker placeholder="Select date" @opened="datepickerOpenedFunction"
                                     @selected="datepickerSelectedFunction" :disabledDates="state.disabledDates"
                                     :value="state.date" v-model="state.date" name="uniquename"
-                                    :monday-first="true"></datepicker>
+                                    :monday-first="true" id="date"></datepicker>
                     </div>
                 </div>
 
